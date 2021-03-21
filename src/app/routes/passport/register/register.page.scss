@@ -1,0 +1,47 @@
+.background{
+    height:100%;
+    width:100%;
+    background-image:url(/assets/img/login.png);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    // background-size: contain;
+}
+
+.input-user{
+    // text-align: center;
+    text-indent: 5;
+    border: solid 1px #50c8ff;
+    border-radius: 5px;
+    background: white;
+}
+.row{
+    padding-top: 10px;
+    // width:80%;
+    margin:auto;
+    margin-top:10px;
+}
+.input_icon{
+    margin: 0px 5px;
+    color: #808080;
+}
+.verify_text{
+    // text-align: center;
+    border: solid 1px #50c8ff;
+    border-radius: 5px;
+    height: 80%;
+    margin: auto 0px;
+    background: white;
+}
+.btn-verify{
+    width:100%;
+}
+.img-tel{
+    height: 28px;
+}
+ion-segment-button{
+    background-color: rgba(225,225,225,0) !important;
+}
+ion-toolbar {
+    --background: transparent;
+    --border-color: transparent;
+  }
