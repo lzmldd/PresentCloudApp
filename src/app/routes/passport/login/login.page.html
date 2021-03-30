@@ -22,14 +22,15 @@
               <ion-label>&nbsp;&nbsp;邮箱/手机号/用户名</ion-label> -->
             </ion-row>
             <ion-row class="row">
-              <ion-input name="email" type="tel" class="input-user" placeholder="请输入账号" required [(ngModel)]="login.email" #email=ngModel>
-                <ion-icon name="people-outline" class="input_icon"></ion-icon>
+              <ion-input name="phone" type="text" class="input-user" placeholder="请输入手机号" required
+              pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"  [(ngModel)]="login.phone" #phone="ngModel">
+                <ion-icon name="phone-portrait-sharp" class="input_icon"></ion-icon>
               </ion-input>
             </ion-row>
             <div class="signup_warn">
-              <ion-text text-left color="danger" *ngIf="email.invalid && email.touched">
-                <p class="warn" [hidden]="!email.errors?.required" padding-start>请输入账号</p>
-                <!-- <p class="warn" [hidden]="!email.errors?.pattern" padding-start>请输入正确的邮箱</p> -->
+              <ion-text text-left color="danger" *ngIf="phone.invalid && phone.touched">
+                <p class="warn" [hidden]="!phone.errors?.required" padding-start>请输入手机号</p>
+                <p class="warn" [hidden]="!phone.errors?.pattern" padding-start>您输入的手机号格式不正确</p>
               </ion-text>
             </div>
             
@@ -60,16 +61,16 @@
 
           <div *ngSwitchCase="'tab2'">
             <ion-row  class="row" style="margin-top:20px;"></ion-row>
-            <ion-row class="row">
-              <ion-input name="email" type="text" class="input-user" placeholder="请输入手机号" required
-              pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" [(ngModel)]="login.email" #email="ngModel">
-              <ion-icon name="phone-portrait-sharp" class="input_icon"></ion-icon>
+            <ion-row class="row" >
+              <ion-input name="phone" type="text" class="input-user" placeholder="请输入手机号" required
+              pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"  [(ngModel)]="login.phone" #phone="ngModel">
+                <ion-icon name="phone-portrait-sharp" class="input_icon"></ion-icon>
               </ion-input>
             </ion-row>
             <div class="signup_warn">
-              <ion-text text-left color="danger" *ngIf="email.invalid && email.touched">
-                <p class="warn" [hidden]="!email.errors?.required" padding-start>请输入手机号</p>
-                <p class="warn" [hidden]="!email.errors?.pattern" padding-start>请输入正确的手机号</p>
+              <ion-text text-left color="danger" *ngIf="phone.invalid && phone.touched">
+                <p class="warn" [hidden]="!phone.errors?.required" padding-start>请输入手机号</p>
+                <p class="warn" [hidden]="!phone.errors?.pattern" padding-start>您输入的手机号格式不正确</p>
               </ion-text>
             </div>
             <ion-row class="row" style="margin-top:5px;" >

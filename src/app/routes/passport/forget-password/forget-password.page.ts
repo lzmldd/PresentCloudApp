@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForgetPasswordPage implements OnInit {
 
-  public emailVerify: string = '';
+  // public phoneVerify: string = '';
   public verify_code: string = '';
   public return_code: string = '1';
   verifyCode: any = {
@@ -17,7 +17,7 @@ export class ForgetPasswordPage implements OnInit {
   }
 
   public forgetinf = {
-    email: '',
+    phone: '',
     password1: '',//输入的新密码
     password2: '' //确认的新密码
   }

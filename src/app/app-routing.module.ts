@@ -43,6 +43,22 @@ const routes: Routes = [
     path: 'user-inf',
     loadChildren: () => import('./layout/user/user-inf/user-inf.module').then( m => m.UserInfPageModule)
   },
+  {
+    path: 'add-lesson',
+    loadChildren: () => import('./layout/add-lesson/add-lesson.module').then( m => m.AddLessonPageModule)
+  },
+  {
+    path: 'create-lesson',
+    loadChildren: () => import('./layout/create-lesson/create-lesson.module').then( m => m.CreateLessonPageModule)
+  },
+  {
+    path: 'me',
+    loadChildren: () => import('./layout/user/me/me.module').then( m => m.MePageModule)
+  },
+  {
+    path: 'create-success',
+    loadChildren: () => import('./layout/create-success/create-success.module').then( m => m.CreateSuccessPageModule)
+  },
 ];
 
 @NgModule({

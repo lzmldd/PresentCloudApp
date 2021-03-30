@@ -28,6 +28,16 @@ const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'me',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../user/me/me.module').then(m => m.MePageModule)
+          }
+        ]
+      },
       {// 默认到班课页面
         path: '',
         redirectTo: '/lesson-tabs/mylesson',

@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button  expand="block" fill="clear" shape="round" [routerLink]="['/lesson-tabs']">
+              <ion-icon slot="start" name="chevron-back-outline"></ion-icon>返回
+          </ion-button>
+      </ion-buttons>
+      <!-- <ion-buttons slot="start">
+    <ion-back-button text="返回"></ion-back-button>
+  </ion-buttons> -->
+      <ion-title style="text-align:center;margin-right: 30px;">创建班课</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="none">
+  </ion-item>
+  <!-- <ion-button fill="outline" style="text-align: center;height:80px;width:80px;display: block;
+margin: auto;">
+  <ion-icon class="add_img" name="add-outline"></ion-icon>
+</ion-button> -->
+  <ion-row>
+      <ion-col></ion-col>
+      <ion-col style="text-align: center;">
+          <ion-thumbnail class="cover" style="background-color:#3dc2ff;">
+              <ion-icon class="icon" color="light" name="cloud-circle-outline"></ion-icon>
+              <!-- <ion-icon color="light" name="calendar-outline"></ion-icon> -->
+          </ion-thumbnail>
+      </ion-col>
+      <ion-col></ion-col>
+  </ion-row>
+
+  <form (ngSubmit)="onCreate(createForm)" #createForm="ngForm" novalidate>
+      <ion-list lines="full" style="margin-top:5px">
+          <ion-item style="text-align: center;">
+              <ion-label>班课封面</ion-label>
+          </ion-item>
+          <ion-item>
+              <ion-label>
+                  <ion-text color="danger">*</ion-text> 班级
+              </ion-label>
+              <ion-input style="text-align: right;" slot="end" type="text" name="class" class="my_inf" required placeholder="未设置" [(ngModel)]="lesson.class"></ion-input>
+          </ion-item>
+
+          <ion-item (click)="termPicker(1,termOptions,term)">
+              <ion-label slot="start">
+                  <ion-text color="danger">*</ion-text> 学期
+              </ion-label>
+              <ion-note class="my_inf" slot="end">{{lesson.term}}&nbsp;&nbsp;</ion-note>
+              <!-- <ion-input slot="end" type="text" name="term" class="my_inf" required placeholder="未设置" [(ngModel)]="lesson.term"></ion-input> -->
+          </ion-item>
+
+          <ion-item (click)="coursePicker(1,courseOptions,course)">
+              <ion-label slot="start">
+                  <ion-text color="danger">*</ion-text> 课程
+              </ion-label>
+              <ion-note class="my_inf" slot="end">{{lesson.name}}&nbsp;&nbsp;</ion-note>
+          </ion-item>
+          <ion-item-divider>
+              <ion-label style="margin: auto;font-size: 14px;color: dodgerblue;" (click)="toAdd()">
+                  <ion-icon name="color-filter-outline"></ion-icon>&nbsp;&nbsp;自定义课程</ion-label>
+          </ion-item-divider>
+          <ion-item-divider>设置学校，院系等其他信息
+          </ion-item-divider>
+          <ion-item>
+              <ion-label slot="start">学校课表班课</ion-label>
+              <ion-checkbox slot="end" name="isSchool" [(ngModel)]="markSchool"></ion-checkbox>
+          </ion-item>
+          <ion-item (click)="openPicker(1,schoolOptions,school,1)">
+              <ion-label slot="start">学校</ion-label>
+              <ion-note class="my_inf" slot="end">{{schoolChoosed}}</ion-note>
+          </ion-item>
+          <ion-item (click)="openPicker(1,academyOptions,academy,0)">
+              <ion-label slot="start">学院</ion-label>
+              <ion-note class="my_inf" slot="end">{{academyChoosed}}</ion-note>
+          </ion-item>
+          <ion-item routerLink="/lesson-edit" [queryParams]="{title:'学习要求',property:'学习要求',pageNum:'1'}">
+              <ion-label slot="start">学习要求</ion-label>
+              <ion-note slot="end" class="my_inf">{{lesson.require}}</ion-note>
+          </ion-item>
+          <ion-item routerLink="/lesson-edit" [queryParams]="{title:'教学进度',property:'教学进度',pageNum:'2'}">
+              <ion-label slot="start">教学进度</ion-label>
+              <ion-note slot="end" class="my_inf">{{lesson.process}}</ion-note>
+          </ion-item>
+          <ion-item routerLink="/lesson-edit" [queryParams]="{title:'考试安排',property:'考试安排',pageNum:'3'}">
+              <ion-label slot="start">考试安排</ion-label>
+              <ion-note slot="end" class="my_inf">{{lesson.examination}}</ion-note>
+          </ion-item>
+          <ion-toolbar>
+              <ion-button expand="full" class="btn" type="submit" color="secondary"  [disabled]="createForm.invalid"> 创建班课
+              </ion-button>
+          </ion-toolbar>
+
+      </ion-list>
+  </form>
+
+</ion-content>
+<!-- <ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn" type="submit" color="secondary" fill="outline"> 创建班课 </ion-button>
+  </ion-toolbar>
+</ion-footer>
+</form> -->

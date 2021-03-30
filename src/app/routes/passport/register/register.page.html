@@ -29,7 +29,7 @@
         </div>
         <ion-row class="row" >
           <ion-input name="phone" type="text" class="input-user" placeholder="请输入手机号" required
-            pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" [(ngModel)]="register_phone" #phone="ngModel">
+          pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"  [(ngModel)]="register_phone" #phone="ngModel">
             <ion-icon name="phone-portrait-sharp" class="input_icon"></ion-icon>
           </ion-input>
         </ion-row>
