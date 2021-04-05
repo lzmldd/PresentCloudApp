@@ -114,7 +114,6 @@ export class RegisterPage implements OnInit {
       };
       //获取邮箱，将邮箱发给后台，请求后台返回验证码
       var api = '/edumam/msm/send/';//后台接口
-      var phone=this.register_phone;
       this.httpService.get(api, params).then((response: any) => {
         console.log(response.data)
         this.return_code = response.data.respCode;//返回参数

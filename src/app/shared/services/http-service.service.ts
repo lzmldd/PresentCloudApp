@@ -24,18 +24,19 @@ export class HttpServiceService {
   // });
   //获取
   get(api, params) {
+    
     return new Promise((resolve, reject) => {
-      // this.setToken();
-      // axios.interceptors.request.use((config) => {
-      //   if (localStorage.getItem("token")) {
-      //     config.headers['token']=localStorage.getItem("token");
-      //   }
-      //   console.log(this.commonUrl);
-      //   return config;
-      // },(error) =>{
-      //   console.log('错误参数')
-      //   return Promise.reject(error);
-      // });
+      this.setToken();
+      axios.interceptors.request.use((config) => {
+        if (localStorage.getItem("token")) {
+          config.headers['token']=localStorage.getItem("token");
+        }
+        console.log(this.commonUrl);
+        return config;
+      },(error) =>{
+        console.log('错误参数')
+        return Promise.reject(error);
+      });
       
       axios.get(this.commonUrl + api, {
         params:params,
