@@ -2,16 +2,16 @@
 <!-- <ion-backdrop style="z-index: 100;"></ion-backdrop> -->
 <ion-header>
   <ion-toolbar>
-      <ion-title *ngIf="tab=='tab1'" color="medium">我创建的班课列表</ion-title>
-      <ion-title *ngIf="tab=='tab2'" color="medium">我加入的班课列表</ion-title>
-      <!-- <ion-segment mode="md" [(ngModel)]="tab" style="background-color: rgba(225,225,225,0);width:60%;float:left">
+      <!-- <ion-title *ngIf="tab=='tab1'" color="medium">我创建的班课列表</ion-title>
+      <ion-title *ngIf="tab=='tab2'" color="medium">我加入的班课列表</ion-title> -->
+      <ion-segment mode="md" [(ngModel)]="tab" style="background-color: rgba(225,225,225,0);width:60%;float:left">
           <ion-segment-button value="tab1" (click)="getCreateLesson()">
               <ion-label> 我创建的</ion-label>
           </ion-segment-button>
           <ion-segment-button value="tab2" (click)="getMyLesson()">
               <ion-label>我加入的</ion-label>
           </ion-segment-button>
-      </ion-segment> -->
+      </ion-segment>
       <ion-button slot="end" (click)="addLesson()" fill="clear">
           <ion-icon slot="icon-only" name="add-outline"></ion-icon>
       </ion-button>
@@ -36,7 +36,6 @@
                   <ion-item style="width:100%">
                       <ion-grid>
                           <ion-row>
-                            <!-- 获取点击的班课名和班课号 -->
                               <ion-col size="2">
                                   <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
                                       <ion-icon class="thum-icon" color="light" name="cloud-circle-outline">
@@ -46,13 +45,12 @@
                               <ion-col size="6.5">
                                   <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
                                       <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
-                                      <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;</p>
+                                      <p>&nbsp;&nbsp;&nbsp;{{item.tname}}&nbsp;&nbsp;{{item.class}}</p>
                                       <p>&nbsp;&nbsp;&nbsp;{{item.term}}</p>
                                   </ion-label>
                               </ion-col>
                               <ion-col size="3.5">
                                   <ion-label style="margin-top: auto;padding-left:10px">
-                                    <!-- 发起签到，点击跳转到签到页面 -->
                                       <p>&nbsp;&nbsp;</p>
                                       <p (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}" style="color:#50c8ff">{{item.no}}</p>
                                       <ion-label style="text-align: -webkit-right;float: left;" (click)="gotoCheckin(i)">
@@ -122,8 +120,7 @@
                               <ion-col size="7">
                                   <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
                                       <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
-                                      <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;</p>
-                                      <p>&nbsp;&nbsp;&nbsp;{{item.term}}</p>
+                                      <p>&nbsp;&nbsp;&nbsp;{{item.tname}}&nbsp;&nbsp;{{item.class}}</p>
                                   </ion-label>
                               </ion-col>
                               <ion-col size="3">
