@@ -21,9 +21,10 @@
               <!-- <ion-icon name="mail-outline"></ion-icon>
               <ion-label>&nbsp;&nbsp;邮箱/手机号/用户名</ion-label> -->
             </ion-row>
+            <!-- pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" -->
             <ion-row class="row">
               <ion-input name="phone" type="text" class="input-user" placeholder="请输入手机号" required
-              pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"  [(ngModel)]="login.phone" #phone="ngModel">
+              pattern=""  [(ngModel)]="login.phone" #phone="ngModel">
                 <ion-icon name="phone-portrait-sharp" class="input_icon"></ion-icon>
               </ion-input>
             </ion-row>
@@ -63,7 +64,7 @@
             <ion-row  class="row" style="margin-top:20px;"></ion-row>
             <ion-row class="row" >
               <ion-input name="phone" type="text" class="input-user" placeholder="请输入手机号" required
-              pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"  [(ngModel)]="login.phone" #phone="ngModel">
+              pattern=""  [(ngModel)]="login.phone" #phone="ngModel">
                 <ion-icon name="phone-portrait-sharp" class="input_icon"></ion-icon>
               </ion-input>
             </ion-row>

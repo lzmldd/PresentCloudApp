@@ -1,0 +1,6 @@
+{
+    "/dcloud": {
+        "target": "http://www.sunago.top/dcloud",
+        "secure": false
+    }
+}

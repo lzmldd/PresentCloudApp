@@ -23,7 +23,7 @@ export class RegisterPage implements OnInit {
     countdown: 60,
     disable: true
   }
-  public role = '3';
+  public role = '3';// 默认3代表学生，2代表老师
 
   constructor(public httpService: HttpServiceService,
     public http: HttpClient,
@@ -49,11 +49,12 @@ export class RegisterPage implements OnInit {
           if (this.password1 == this.password2) {
             var params = {
               email: this.register_email,
-              password: this.password1
+              password: this.password1,
+              role_id :this.role
             }
-            if (this.role == '3') {
-              params["role_id"] = '3';
-            }
+            // if (this.role == '3') {
+            //   params["role_id"] = '3';
+            // }
             console.log(params);
             var api = '/register';//后台接口
             this.httpService.post(api, params).then(async (response: any) => {
