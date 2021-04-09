@@ -24,7 +24,7 @@ export class MylessonPage implements OnInit {
     className: "",//班级名
     term: "",// 学期
     teacherName: "",// 老师名
-    name: "" // 班课名
+    name: "" // 课程名名
   }
   ];
   constructor(public httpService: HttpServiceService,

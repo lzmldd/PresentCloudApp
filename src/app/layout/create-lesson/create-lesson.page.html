@@ -37,23 +37,25 @@ margin: auto;">
               <ion-label>
                   <ion-text color="danger">*</ion-text> 班级
               </ion-label>
-              <ion-input style="text-align: right;" slot="end" type="text" name="class" class="my_inf" required placeholder="未设置" [(ngModel)]="lesson.class"></ion-input>
+              <ion-input style="text-align: right;" slot="end" type="text" name="class" class="my_inf" required placeholder="未设置" [(ngModel)]="lesson.className"></ion-input>
           </ion-item>
+        
+        <ion-item>
+            <ion-label>
+                <ion-text color="danger">*</ion-text> 课程
+            </ion-label>
+            <ion-input style="text-align: right;" slot="end" type="text" name="name" class="my_inf" required placeholder="未设置"[(ngModel)]="lesson.name"></ion-input>
+            <!-- <ion-note class="my_inf" slot="end">{{lesson.name}}&nbsp;&nbsp;</ion-note> -->
+        </ion-item>
 
           <ion-item (click)="termPicker(1,termOptions,term)">
-              <ion-label slot="start">
+              <ion-label>
                   <ion-text color="danger">*</ion-text> 学期
               </ion-label>
-              <ion-note class="my_inf" slot="end">{{lesson.term}}&nbsp;&nbsp;</ion-note>
-              <!-- <ion-input slot="end" type="text" name="term" class="my_inf" required placeholder="未设置" [(ngModel)]="lesson.term"></ion-input> -->
+              <!-- <ion-note  class="my_inf" slot="end">{{lesson.term}}&nbsp;&nbsp;</ion-note> -->
+            <ion-input style="text-align: right;" slot="end" type="text" name="term" class="my_inf" required placeholder="请选择" [(ngModel)]="lesson.term"></ion-input>
           </ion-item>
 
-          <ion-item (click)="coursePicker(1,courseOptions,course)">
-              <ion-label slot="start">
-                  <ion-text color="danger">*</ion-text> 课程
-              </ion-label>
-              <ion-note class="my_inf" slot="end">{{lesson.name}}&nbsp;&nbsp;</ion-note>
-          </ion-item>
           <!-- <ion-item-divider>
               <ion-label style="margin: auto;font-size: 14px;color: dodgerblue;" (click)="toAdd()">
                   <ion-icon name="color-filter-outline"></ion-icon>&nbsp;&nbsp;自定义课程</ion-label>
@@ -66,23 +68,23 @@ margin: auto;">
           </ion-item>
           <ion-item (click)="openPicker(1,schoolOptions,school,1)">
               <ion-label slot="start">学校</ion-label>
-              <ion-note class="my_inf" slot="end">{{schoolChoosed}}</ion-note>
+              <ion-note class="my_inf" slot="end">{{selectedSchoolName}}</ion-note>
           </ion-item>
           <ion-item (click)="openPicker(1,academyOptions,academy,0)">
               <ion-label slot="start">学院</ion-label>
-              <ion-note class="my_inf" slot="end">{{academyChoosed}}</ion-note>
+              <ion-note class="my_inf" slot="end">{{selectedAcademyName}}</ion-note>
           </ion-item>
           <ion-item routerLink="/lesson-edit" [queryParams]="{title:'学习要求',property:'学习要求',pageNum:'1'}">
               <ion-label slot="start">学习要求</ion-label>
-              <ion-note slot="end" class="my_inf">{{lesson.require}}</ion-note>
+              <ion-note slot="end" class="my_inf">{{lesson.learnRequire}}</ion-note>
           </ion-item>
           <ion-item routerLink="/lesson-edit" [queryParams]="{title:'教学进度',property:'教学进度',pageNum:'2'}">
               <ion-label slot="start">教学进度</ion-label>
-              <ion-note slot="end" class="my_inf">{{lesson.process}}</ion-note>
+              <ion-note slot="end" class="my_inf">{{lesson.teachProgress}}</ion-note>
           </ion-item>
           <ion-item routerLink="/lesson-edit" [queryParams]="{title:'考试安排',property:'考试安排',pageNum:'3'}">
               <ion-label slot="start">考试安排</ion-label>
-              <ion-note slot="end" class="my_inf">{{lesson.examination}}</ion-note>
+              <ion-note slot="end" class="my_inf">{{lesson.examSchedule}}</ion-note>
           </ion-item>
           <ion-toolbar>
               <ion-button expand="full" class="btn" type="submit" color="secondary"  [disabled]="createForm.invalid"> 创建班课

@@ -190,6 +190,7 @@ export class LoginPage implements OnInit {
       // console.log(response.data)
       if (response.status == 200) {
         localStorage.setItem("role", response.data.roleId);
+        localStorage.setItem("user_id", response.data.id);
         // console.log(localStorage.getItem("role") =='undefined')
         if (localStorage.getItem("role") != 'undefined') {
           this.router.navigateByUrl('/lesson-tabs/mylesson');

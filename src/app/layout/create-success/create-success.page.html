@@ -11,7 +11,7 @@
         <ion-back-button text="返回"></ion-back-button>
       </div>
     </ion-buttons>
-    <ion-title color="medium" style="text-align:center;margin-right: 30px;">课程码</ion-title>
+    <ion-title color="medium" style="text-align:center;margin-right: 30px;">创建成功</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -34,11 +34,11 @@
   </ion-card>
   <!-- <ion-item lines="none"> -->
   <ion-row class="row" *ngIf="flag=='0'">
-    <ion-button expand="full" color="secondary" class="btn btn-login" routerLink="/lesson-tabs/mylesson"
-      [queryParams]="{flush:value}"> 返回 </ion-button>
+    <ion-button color="secondary" class="btn btn-login" routerLink="/lesson-tabs/mylesson"
+      [queryParams]="{flush:value}"> 开始班课 </ion-button>
   </ion-row>
   <ion-row class="row" *ngIf="flag=='1'">
-    <ion-button expand="full" color="secondary" class="btn btn-login" routerLink="/tabs/detail"> 返回 </ion-button>
+    <ion-button  color="secondary" class="btn btn-login" routerLink="/tabs/detail"> 返回 </ion-button>
   </ion-row>
   <!-- </ion-item> -->
 </ion-content>

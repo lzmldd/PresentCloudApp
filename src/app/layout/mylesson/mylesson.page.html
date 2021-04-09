@@ -39,14 +39,15 @@
                             <!-- 获取点击的班课名和班课号 -->
                               <ion-col size="2">
                                   <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
-                                      <ion-icon class="thum-icon" color="light" name="cloud-circle-outline">
-                                      </ion-icon>
+                                    <!-- <ion-icon class="thum-icon" color="light" name="cloud-circle-outline">
+                                    </ion-icon> -->
+                                    <img src="http://116.62.152.144:7777/group1/M00/00/00/dD6YkGBup0CALEZLAAAYoHIfgxE61.jpeg">
                                   </ion-thumbnail>
                               </ion-col>
                               <ion-col size="6.5">
                                   <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
                                       <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
-                                      <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;</p>
+                                      <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;{{item.className}}</p>
                                       <p>&nbsp;&nbsp;&nbsp;{{item.term}}</p>
                                   </ion-label>
                               </ion-col>
@@ -122,7 +123,7 @@
                               <ion-col size="7">
                                   <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
                                       <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
-                                      <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;</p>
+                                      <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;{{item.className}}</p>
                                       <p>&nbsp;&nbsp;&nbsp;{{item.term}}</p>
                                   </ion-label>
                               </ion-col>

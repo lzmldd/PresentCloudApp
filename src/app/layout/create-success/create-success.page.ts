@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -13,9 +14,21 @@ export class CreateSuccessPage implements OnInit {
   flag = '0';
   public value = '1';
   
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute,) { }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      console.log(JSON.stringify(queryParams.lessonNo));
+      if (queryParams.lessonNo) {//详情
+        this.flag = '1';
+        this.lessonCode = queryParams.lessonNo;
+        this.createdCode = queryParams.lessonNo;
+      } else {//新建班课
+        this.flag = '0';
+        this.lessonCode = localStorage.getItem("courseCode");
+        this.createdCode = localStorage.getItem("courseCode");
+      }
+    });
   }
 
 }

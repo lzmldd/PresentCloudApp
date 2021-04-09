@@ -59,6 +59,10 @@ const routes: Routes = [
     path: 'create-success',
     loadChildren: () => import('./layout/create-success/create-success.module').then( m => m.CreateSuccessPageModule)
   },
+  {
+    path: 'lesson-edit',
+    loadChildren: () => import('./layout/lesson-edit/lesson-edit.module').then( m => m.LessonEditPageModule)
+  },
 ];
 
 @NgModule({

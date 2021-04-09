@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class MePage implements OnInit {
 
   public user = {
-    email: localStorage.getItem("email"),
+    phone: localStorage.getItem("phone"),
     image: "1",
     role: 3,
     sno: "",
