@@ -9,8 +9,8 @@
   "type": "angular",
   "proxies": [
     {
-      "path": "/api", 
-      "proxyUrl": "http://8.136.104.128:8004/edumam/msm/send/"
+      "path": "/", 
+      "proxyUrl": "http://www.sunago.top/"
     }
   ]
 }

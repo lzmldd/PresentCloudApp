@@ -25,8 +25,8 @@ export class CreateSuccessPage implements OnInit {
         this.createdCode = queryParams.lessonNo;
       } else {//新建班课
         this.flag = '0';
-        this.lessonCode = localStorage.getItem("courseCode");
-        this.createdCode = localStorage.getItem("courseCode");
+        this.lessonCode = localStorage.getItem("create_courseCode");
+        this.createdCode = localStorage.getItem("create_courseCode");
       }
     });
   }

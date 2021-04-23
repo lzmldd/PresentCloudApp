@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpServiceService } from './../../services/http-service.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import { NavParams, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-search',
@@ -10,17 +10,17 @@ import { NavParams } from '@ionic/angular';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  // lesson-type='我创建的';
+  
   lessonType: string = '我创建的';
   public isTeacher = '1';
-  public content = '';
-  public lessonList = [];
   public flag = '0';
-
+  public lessonList = [];
+  
   constructor(public navParams: NavParams,
     public router: Router,
     public httpService: HttpServiceService,
     public http: HttpClient,
+    public loadingController: LoadingController,
     )
     {
     if (navParams.data.type == 'join') {
@@ -31,29 +31,33 @@ export class SearchComponent implements OnInit {
   dissmissSearch() {
     this.navParams.data.modal.dismiss();
   }
-  getData($event) {
+  async getData($event) {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    await loading.present();
     //传给后台搜索的内容
-    var api = '/courses';//后台接口
     var params = {}
     if (this.isTeacher == '1') {
+      var api = '/course/mobile/teacher';//后台接口
       params = {
         search: $event.detail.value,
-        teacher_email: localStorage.getItem("email")
       }
     } else {
+      var api = '/course/mobile/student';//后台接口
       params = {
         search: $event.detail.value,
-        student_email: localStorage.getItem("email")
       }
     }
 
-    this.httpService.get(api, params).then((response: any) => {
+    this.httpService.get(api,params).then(async (response: any) => {
+      await loading.dismiss();
       if (response.data.length == 0) {
         this.flag = '0';
       } else {
         this.flag = '1';
       }
-      this.lessonList = response.data;
+      this.lessonList = response.data.data;
     })
   }
 
@@ -62,8 +66,8 @@ export class SearchComponent implements OnInit {
   getCurrentLesson(index) {
     this.dissmissSearch();
     console.log(this.lessonList[index])
-    localStorage.setItem("lesson_name", this.lessonList[index].name);
-    localStorage.setItem("lesson_no", this.lessonList[index].no);
+    localStorage.setItem("select_lessonName", this.lessonList[index].name);
+    localStorage.setItem("select_courseCode", this.lessonList[index].courseCode);
     if (this.isTeacher == "1") {
       localStorage.setItem("isTeacher", '1');
     } else {
@@ -74,8 +78,8 @@ export class SearchComponent implements OnInit {
 
   gotoCheckin(index) {
     this.dissmissSearch();
-    localStorage.setItem("lesson_name", this.lessonList[index].name);
-    localStorage.setItem("lesson_no", this.lessonList[index].no);
+    localStorage.setItem("select_lessonName", this.lessonList[index].name);
+    localStorage.setItem("select_courseCode", this.lessonList[index].courseCode);
     this.router.navigateByUrl('/choose');
   }
 }

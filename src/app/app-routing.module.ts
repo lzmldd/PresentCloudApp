@@ -44,10 +44,6 @@ const routes: Routes = [
     loadChildren: () => import('./layout/user/user-inf/user-inf.module').then( m => m.UserInfPageModule)
   },
   {
-    path: 'add-lesson',
-    loadChildren: () => import('./layout/add-lesson/add-lesson.module').then( m => m.AddLessonPageModule)
-  },
-  {
     path: 'create-lesson',
     loadChildren: () => import('./layout/create-lesson/create-lesson.module').then( m => m.CreateLessonPageModule)
   },
@@ -62,6 +58,22 @@ const routes: Routes = [
   {
     path: 'lesson-edit',
     loadChildren: () => import('./layout/lesson-edit/lesson-edit.module').then( m => m.LessonEditPageModule)
+  },
+  {
+    path: 'checkin-choose',
+    loadChildren: () => import('./layout/checkin/checkin-choose/checkin-choose.module').then( m => m.CheckinChoosePageModule)
+  },
+  {
+    path: 'checkin-result',
+    loadChildren: () => import('./layout/checkin/checkin-result/checkin-result.module').then( m => m.CheckinResultPageModule)
+  },
+  {
+    path: 'lesson-school',
+    loadChildren: () => import('./layout/lesson-school/lesson-school.module').then( m => m.LessonSchoolPageModule)
+  },
+  {
+    path: 'checkin',
+    loadChildren: () => import('./layout/checkin/checkin/checkin.module').then( m => m.CheckinPageModule)
   },
 ];
 

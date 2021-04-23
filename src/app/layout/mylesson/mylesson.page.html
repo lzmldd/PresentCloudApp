@@ -1,9 +1,9 @@
 <!-- <ion-app> -->
 <!-- <ion-backdrop style="z-index: 100;"></ion-backdrop> -->
-<ion-header>
+<ion-header mode="ios">
   <ion-toolbar>
-      <ion-title *ngIf="tab=='tab1'" color="medium">我创建的班课列表</ion-title>
-      <ion-title *ngIf="tab=='tab2'" color="medium">我加入的班课列表</ion-title>
+      <ion-title *ngIf="tab=='tab1'" >我创建的班课列表</ion-title>
+      <ion-title *ngIf="tab=='tab2'" >我加入的班课列表</ion-title>
       <!-- <ion-segment mode="md" [(ngModel)]="tab" style="background-color: rgba(225,225,225,0);width:60%;float:left">
           <ion-segment-button value="tab1" (click)="getCreateLesson()">
               <ion-label> 我创建的</ion-label>
@@ -24,7 +24,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content  mode="ios">
   <ion-refresher *ngIf="flag=='1'" slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -41,25 +41,25 @@
                                   <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
                                     <!-- <ion-icon class="thum-icon" color="light" name="cloud-circle-outline">
                                     </ion-icon> -->
-                                    <img src="http://116.62.152.144:7777/group1/M00/00/00/dD6YkGBup0CALEZLAAAYoHIfgxE61.jpeg">
+                                    <img src={{item.picture}}>
                                   </ion-thumbnail>
                               </ion-col>
                               <ion-col size="6.5">
                                   <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
-                                      <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
-                                      <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;{{item.className}}</p>
+                                      <h3>&nbsp;&nbsp;&nbsp;{{item.name}}&nbsp;&nbsp;</h3>
+                                      <p>&nbsp;&nbsp;&nbsp;{{item.className}}&nbsp;&nbsp;</p>
                                       <p>&nbsp;&nbsp;&nbsp;{{item.term}}</p>
                                   </ion-label>
                               </ion-col>
                               <ion-col size="3.5">
-                                  <ion-label style="margin-top: auto;padding-left:10px">
+                                  <ion-label style="margin-top: auto;padding-left:5px">
                                     <!-- 发起签到，点击跳转到签到页面 -->
-                                      <p>&nbsp;&nbsp;</p>
-                                      <p (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}" style="color:#50c8ff">{{item.no}}</p>
-                                      <ion-label style="text-align: -webkit-right;float: left;" (click)="gotoCheckin(i)">
-                                          <ion-icon name="shield-checkmark-outline"></ion-icon>
+                                      <!-- <p>&nbsp;&nbsp;</p> -->
+                                      <p (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}" style="color:#50c8ff">{{item.courseCode}}</p>
+                                      <ion-label style="text-align: -webkit-right;float: left;" (click)="checkin(i)">
+                                          <ion-icon name="checkbox-outline"></ion-icon>
                                       </ion-label>
-                                      <ion-label style="text-align: -webkit-left;" (click)="gotoCheckin(i)">
+                                      <ion-label style="text-align: -webkit-left;" (click)="checkin(i)">
                                           <p style="font-size: 12px;">
                                               发起签到
                                           </p>
@@ -98,11 +98,17 @@
                       <ion-col>
                           <ion-label style="text-align: center;">
                               <p>你还没有创建班课</p>
+                              <!-- <p>快去创建一个吧~</p> -->
                               <p>快点击右上方相应图标创建班课吧~</p>
                           </ion-label>
+                          <!-- <p></p>
+                            <ion-toolbar>
+                                <ion-button expand="full" class="btn" type="submit" color="secondary"> 创建班课</ion-button>
+                            </ion-toolbar> -->
                       </ion-col>
                       <!-- <ion-col></ion-col> -->
                   </ion-row>
+                  
               </ion-grid>
           </div>
       </div>
@@ -116,8 +122,9 @@
                           <ion-row>
                               <ion-col size="2">
                                   <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}">
-                                      <ion-icon class="thum-icon " color="light " name="cloud-circle-outline">
-                                      </ion-icon>
+                                      <!-- <ion-icon class="thum-icon " color="light " name="cloud-circle-outline">
+                                      </ion-icon> -->
+                                    <img src={{item.picture}}>
                                   </ion-thumbnail>
                               </ion-col>
                               <ion-col size="7">
@@ -128,13 +135,14 @@
                                   </ion-label>
                               </ion-col>
                               <ion-col size="3">
-                                  <ion-label [routerLink]="['/student-checkin']" style="text-align: end;">
-                                      <h3>&nbsp;&nbsp;&nbsp;</h3>
-                                      <p [routerLink]="['/student-checkin']">
+                                  <ion-label  style="text-align: end;"(click)="checkin(i)">
+                                      <p>&nbsp;&nbsp;&nbsp;</p>
+                                      <p>
                                           <ion-icon name="shield-checkmark-outline"></ion-icon>
                                           签到
                                       </p>
                                   </ion-label>
+                                  
                               </ion-col>
                           </ion-row>
                       </ion-grid>
@@ -167,8 +175,13 @@
                       <ion-col>
                           <ion-label style="text-align: center;">
                               <p>你还没有加入班课</p>
+                              <!-- <p>快去加入一个吧~</p> -->
                               <p>快点击右上方相应图标加入班课吧~</p>
                           </ion-label>
+                        <!-- <p></p>
+                        <ion-toolbar>
+                            <ion-button expand="full" class="btn" type="submit" color="secondary"> 加入班课</ion-button>
+                        </ion-toolbar> -->
                       </ion-col>
                       <!-- <ion-col></ion-col> -->
                   </ion-row>

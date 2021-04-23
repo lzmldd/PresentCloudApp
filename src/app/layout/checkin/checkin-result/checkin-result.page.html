@@ -1,0 +1,73 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" expand="block" fill="clear" shape="round" (click)="goback()">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="text-align:center;font-size: 18px;">签到结果</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" style="font-size: 15px;" (click)="showCheck()">{{checkText}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="ios">
+  <!-- <ion-item-divider>
+        <ion-searchbar style="width: 80%;float: left;"></ion-searchbar>
+        <ion-button style="margin: 10px 0 0 10px;float:left;width: 15%;">搜索</ion-button>
+    </ion-item-divider> -->
+  <ion-item-divider class="row-text">
+    <ion-label>未签到</ion-label>
+    <ion-note slot="end" color="tertiary" style="padding: 10px 0 0 0;font-size: 15px;margin-right: 10px;">
+      {{absenceTotal}}人</ion-note>
+    <ion-checkbox slot="end" color="primary" (click)="selectAllAbsence()" [(ngModel)]="isSelectAllAbsence"
+      *ngIf="show==true&&absenceTotal!=0" style="margin-left:0px;margin-right: 17px;"></ion-checkbox>
+  </ion-item-divider>
+  <ion-list can-swipe="listCanSwipe">
+    <!-- <ion-item-sliding > -->
+    <ion-item lines="full" *ngFor="let item of absenceList">
+      <ion-avatar slot="start" (click)="presentActionSheet(item)">
+        <img src="{{item.userFace}}">
+      </ion-avatar>
+      <ion-label (click)="presentActionSheet(item)">
+        <h2>{{item.name}}</h2>
+        <p>{{item.number}}</p>
+      </ion-label>
+      <ion-note  slot="end" color="danger" style="font-size: 15px;margin-top: 4px;" (click)="presentActionSheet(item)">
+        缺勤</ion-note>
+      <ion-checkbox slot="end" color="primary" (click)="checkAbsence(item)" *ngIf="show==true" style="margin-left:10px"
+        [(ngModel)]="item.checked" [id]="item.id"></ion-checkbox>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-item-divider class="row-text">
+    <ion-label>已签到</ion-label>
+    <ion-note slot="end" color="tertiary" style="padding: 10px 0 0 0;font-size: 15px;margin-right: 10px;">
+      {{attendanceTotal}}人</ion-note>
+    <ion-checkbox slot="end" color="primary" (click)="selectAllAttendance()" [(ngModel)]="isSelectAllAttendance"
+      *ngIf="show==true&&attendanceTotal!=0" style="margin-left:0px;margin-right: 17px;"></ion-checkbox>
+  </ion-item-divider>
+  <ion-list can-swipe="listCanSwipe">
+    <!-- <ion-item-sliding > -->
+    <ion-item lines="full" *ngFor="let item of attendanceList">
+      <ion-avatar slot="start" (click)="presentActionSheet(item)">
+      <img src="{{item.userFace}}">
+      </ion-avatar>
+      <ion-label (click)="presentActionSheet(item)">
+        <h2>{{item.name}}</h2>
+        <p>{{item.number}}</p>
+      </ion-label>
+      <ion-note slot="end"  style="font-size: 10px;margin-top: 4px;"(click)="presentActionSheet(item)">
+      {{item.signTime.substring(0,16)}}</ion-note>
+      <ion-checkbox slot="end" color="primary" (click)="checkAttendance(item)" *ngIf="show==true"
+        style="margin-left:10px" [(ngModel)]="item.checked" [id]="item.id"></ion-checkbox>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
+<ion-footer *ngIf="show==true">
+  <p style="color: #3685d8;text-align: center;" (click)="setAllState()">设置考勤状态</p>
+</ion-footer>

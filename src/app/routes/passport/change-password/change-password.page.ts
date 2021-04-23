@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpServiceService } from './../../../shared/services/http-service.service';
@@ -12,7 +13,6 @@ import { Component, OnInit } from '@angular/core';
 export class ChangePasswordPage implements OnInit {
 
   public changeinf = {
-    phone: '',
     oldpassword: '',
     password1: '',
     password2: ''
@@ -26,12 +26,11 @@ export class ChangePasswordPage implements OnInit {
 
   ngOnInit() {
   }
-  async onChangePass() {
+  async onChangePass(form: NgForm) {
+    if (form.valid) {
     //两次新密码是否相同
     if (this.changeinf.password1 == this.changeinf.password2) {
-      //请求后台发送四个参数
-      //email
-      this.changeinf.phone = localStorage.getItem("phone")
+      //请求后台发送三个参数
       var params = {//后台所需参数
         id: localStorage.getItem("user_id"),
         oldPassword: this.changeinf.oldpassword,//旧密码
@@ -39,10 +38,10 @@ export class ChangePasswordPage implements OnInit {
       };
       console.log(params)
       //将账号密码传给后台，得到返回值，若匹配无误，则进入班课列表界面
-      var api = '/dcloud/user/changepwd';//后台接口
+      var api = '/common/user/pwd';//后台接口
       this.httpService.post(api, params).then(async (response: any) => {
-        console.log(response);
-        if (response.data.respCode == 1) {
+        // console.log(response.data);
+        if (response.data.code == 200) {
           //修改密码成功，跳转到登录页
           let alert = await this.alertController.create({
             header: '提示',
@@ -52,7 +51,7 @@ export class ChangePasswordPage implements OnInit {
               cssClass: 'secondary',
               handler: (blah) => {
                 //修改密码成功，跳转到登录页
-                this.router.navigateByUrl('');
+                this.router.navigateByUrl('login');
               }
             }
             ]
@@ -68,7 +67,7 @@ export class ChangePasswordPage implements OnInit {
       });
       toast.present();
     }
-
+  }
   }
 
 }

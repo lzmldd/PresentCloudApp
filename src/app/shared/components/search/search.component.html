@@ -1,7 +1,7 @@
 <ion-header>
   <div style="width: 100%;height: 20px;opacity: 0;"></div>
   <ion-toolbar>
-    <ion-searchbar mode="ios" class="searchbar" showCancelButton="always" cancelButtonText="取消"
+    <ion-searchbar mode="ios" class="searchbar" show-cancel-button="always" cancel-button-text="取消" debounce=1000
       (ionCancel)="dissmissSearch()" (ionChange)="getData($event)" placeholder="搜索 {{lessonType}}"
       style="margin-top:10px;"></ion-searchbar>
   </ion-toolbar>
@@ -16,21 +16,21 @@
             <ion-row>
               <ion-col size="2">
                 <ion-thumbnail class="thum" (click)="getCurrentLesson(i)">
-                  <ion-icon class="thum-icon" color="light" name="cloud-circle-outline">
-                  </ion-icon>
+                    <!-- <ion-icon class="thum-icon" color="light" name="cloud-circle-outline"></ion-icon>-->
+                    <img src={{item.picture}}>
                 </ion-thumbnail>
               </ion-col>
               <ion-col size="6.5">
                 <ion-label (click)="getCurrentLesson(i)">
                   <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
-                  <p>&nbsp;&nbsp;&nbsp;{{item.tname}}&nbsp;&nbsp;{{item.class}}</p>
+                  <p>&nbsp;&nbsp;&nbsp;{{item.className}}&nbsp;&nbsp;</p>
                   <p>&nbsp;&nbsp;&nbsp;{{item.term}}</p>
                 </ion-label>
               </ion-col>
               <ion-col size="3.5">
-                <ion-label style="margin-top: auto;padding-left:10px">
-                  <p>&nbsp;&nbsp;</p>
-                  <p (click)="getCurrentLesson(i)" style="color:#50c8ff">{{item.no}}</p>
+                <ion-label style="margin-top: auto;padding-left:5px">
+                  <!-- <p>&nbsp;&nbsp;</p> -->
+                  <p (click)="getCurrentLesson(i)" style="color:#50c8ff">{{item.courseCode}}</p>
                   <ion-label style="text-align: -webkit-right;float: left;" (click)="gotoCheckin(i)">
                     <ion-icon name="shield-checkmark-outline"></ion-icon>
                   </ion-label>
@@ -55,18 +55,20 @@
             <ion-row>
               <ion-col size="2">
                 <ion-thumbnail class="thum" (click)="getCurrentLesson(i)">
-                  <ion-icon class="thum-icon " color="light " name="cloud-circle-outline"></ion-icon>
+                  <!-- <ion-icon class="thum-icon " color="light " name="cloud-circle-outline"></ion-icon> -->
+                  <img src={{item.picture}}>
                 </ion-thumbnail>
               </ion-col>
               <ion-col size="7">
                 <ion-label (click)="getCurrentLesson(i)">
                   <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
-                  <p>&nbsp;&nbsp;&nbsp;{{item.tname}}&nbsp;&nbsp;{{item.class}}</p>
-
+                  <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;{{item.className}}</p>
+                  <p>&nbsp;&nbsp;&nbsp;{{item.term}}</p>
                 </ion-label>
               </ion-col>
               <ion-col size="3">
                 <ion-label [routerLink]="['/student-checkin']" style="text-align: -webkit-right;">
+                  <h3>&nbsp;&nbsp;&nbsp;</h3>
                   <p [routerLink]="['/student-checkin']">
                     <ion-icon name="shield-checkmark-outline"></ion-icon>
                     签到

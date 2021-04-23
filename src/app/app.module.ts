@@ -1,3 +1,4 @@
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { FormsModule } from '@angular/forms';
 import { HttpServiceService } from './shared/services/http-service.service';
 import { NgModule } from '@angular/core';
@@ -21,7 +22,7 @@ import { SplashScreen } from '@capacitor/core';
     HttpServiceService,
     // InAppBrowser,
     // QQSDK,
-    // Geolocation,
+    Geolocation,
     // QRScanner,
     // AppMinimize,
     // BackgroundMode,

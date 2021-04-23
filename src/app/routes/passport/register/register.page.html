@@ -16,20 +16,18 @@
         <ion-row style="margin-top:20px;"></ion-row>
         
         <ion-row class="row" >
-          <ion-input name="email" type="text" class="input-user" placeholder="请输入邮箱" required
-            pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" [(ngModel)]="register_email" #email="ngModel">
+          <ion-input name="username" type="text" class="input-user" placeholder="请输入用户名" required [(ngModel)]="register.username" #username="ngModel">
             <ion-icon name="mail-outline" class="input_icon"></ion-icon>
           </ion-input>
         </ion-row>
         <div class="signup_warn">
-          <ion-text text-left color="danger" *ngIf="email.invalid && email.touched">
-            <p class="warn" [hidden]="!email.errors?.required" padding-start>请输入邮箱</p>
-            <p class="warn" [hidden]="!email.errors?.pattern" padding-start>您输入的邮箱格式不正确</p>
+          <ion-text text-left color="danger" *ngIf="username.invalid && username.touched">
+            <p class="warn" [hidden]="!username.errors?.required" padding-start>请输入用户名</p>
           </ion-text>
         </div>
         <ion-row class="row" >
           <ion-input name="phone" type="text" class="input-user" placeholder="请输入手机号" required
-          pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"  [(ngModel)]="register_phone" #phone="ngModel">
+          pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"  [(ngModel)]="register.phone" #phone="ngModel">
             <ion-icon name="phone-portrait-sharp" class="input_icon"></ion-icon>
           </ion-input>
         </ion-row>
@@ -40,32 +38,43 @@
           </ion-text>
         </div>
         <ion-row class="row">
-          <ion-input name="code" type="text" class="verify_text" [(ngModel)]="verify_code" placeholder="请输入验证码">
+          <ion-input name="code" type="text" class="verify_text" placeholder="请输入验证码" required [(ngModel)]="register.code" #code="ngModel">
             <ion-icon name="mail-open-outline" class="input_icon"></ion-icon>
           </ion-input>
-          <ion-button color="secondary" (click)="onSendSMS()" [disabled]="!verifyCode.disable">
+          <ion-button color="secondary" (click)="onSendSMS()" [disabled]="!verifyCode.disable || phone.invalid">
             {{verifyCode.verifyCodeTips}}</ion-button>
         </ion-row>
+        <div class="signup_warn">
+          <ion-text text-left color="danger" *ngIf="code.invalid && code.touched">
+            <p class="warn" [hidden]="!code.errors?.required" padding-start>请输入验证码</p>
+          </ion-text>
+        </div>
         <ion-row class="row">
           <ion-input name='pwd1' type="password" class="input-user" placeholder="请输入密码" required
-            pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{6,16}$" [(ngModel)]="password1"
+            pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{6,16}$" [(ngModel)]="register.password1"
             #pwd1="ngModel">
             <ion-icon name="lock-closed-outline" class="input_icon"></ion-icon>
           </ion-input>
         </ion-row>
         <div class="signup_warn">
-          <ion-text name='pwd2' text-left color="danger" *ngIf="pwd1.invalid && pwd1.touched">
+          <ion-text text-left color="danger" *ngIf="pwd1.invalid && pwd1.touched">
             <p class="warn" [hidden]="!pwd1.errors?.required" padding-start>请输入密码</p>
             <p class="warn" [hidden]="!pwd1.errors?.pattern" padding-start>6至16位，由数字、英文、符号三种字符类型构成，至少包含两种类型字符</p>
           </ion-text>
         </div>
         <ion-row class="row">
-          <ion-input name="pwd2" type="password" class="input-user" placeholder="请确认密码" [(ngModel)]="password2"
+          <ion-input name="pwd2" type="password" class="input-user" placeholder="请确认密码" required [(ngModel)]="register.password2"
             #pwd2="ngModel">
             <ion-icon name="checkmark-done-circle-outline" class="input_icon"></ion-icon>
           </ion-input>
         </ion-row>
-        <ion-radio-group name="role" [(ngModel)]="role" mode="md">
+        <div class="signup_warn">
+          <ion-text text-left color="danger" *ngIf="pwd2.invalid && pwd2.touched">
+            <p class="warn" [hidden]="!pwd2.errors?.required" padding-start>请确认密码</p>
+            <p class="warn" [hidden]="!pwd2.errors?.pattern" padding-start>6至16位，由数字、英文、符号三种字符类型构成，至少包含两种类型字符</p>
+          </ion-text>
+        </div>
+        <ion-radio-group name="role" [(ngModel)]="register.roleId" mode="md">
           <ion-row class="row">
             <!-- <ion-item> -->
             <ion-col>

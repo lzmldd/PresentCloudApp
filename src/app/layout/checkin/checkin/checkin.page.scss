@@ -1,0 +1,30 @@
+.text-pos {
+    text-align: center;
+}
+
+.col-btn {
+    text-align: center;
+}
+
+.click-btn {
+    width: 50%;
+}
+
+.my-circle {
+    min-width: 120px;
+    height: 120px;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    background-color: #3dc2ff;
+    display: block;
+    position: absolute;
+    font-style: initial;
+    left: 35%;
+    top: 40%;
+    border-radius: 120px; //让边框变成圆形
+    padding: 0 3px;
+    z-index: 1000;
+    font-size: 11px;
+    box-shadow: rgba(100, 206, 239, 0.74) 2px 3px 14px; //让边框带有阴影
+}

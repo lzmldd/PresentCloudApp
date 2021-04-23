@@ -11,19 +11,21 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  
-  public register_email: string = '';
-  public register_phone: string = '';
-  public password1: string = '';
-  public password2: string = '';
-  public verify_code: string = '';
-  public return_code: string = '1';
+  register={
+    username:'',
+    phone:'',
+    code:'',
+    password1:'',
+    password2: '',
+    roleId: '3'// 默认3代表学生，2代表老师
+  }
+
   verifyCode: any = {
     verifyCodeTips: "获取验证码",
     countdown: 60,
     disable: true
   }
-  public role = '3';// 默认3代表学生，2代表老师
+  
 
   constructor(public httpService: HttpServiceService,
     public http: HttpClient,
@@ -35,22 +37,63 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
+  onSendSMS() {
+    //点击按钮后请求后台数据 开始倒计时
+    if (this.verifyCode.disable == true) {
+      var params = {//后台所需参数
+        phone: this.register.phone,
+      };
+      var api = '/registerCaptcha';//后台接口
+      this.httpService.get(api, params).then(async (response: any) => {
+        console.log(response.data)
+        if (response.data.message == "该手机号已注册，请去登录") {
+          // const toast = await this.toastCtrl.create({
+          //   message: '该手机号未注册，请先注册', // 弹出输入不能为空的文本框
+          //   duration: 2000
+          // });
+          // toast.present();
+
+          let alert = await this.alertController.create({
+            header: '提示',
+            message: '该手机号已注册，请去登录',
+            buttons: [
+              {
+                text: '好的',
+                role: 'cancel'
+              },
+              {
+                text: '去登录',
+                handler: () => {
+                  this.router.navigateByUrl('/login');
+                }
+              }
+            ]
+          });
+          alert.present();
+        } else {
+          this.verifyCode.disable = false;
+          this.settime();
+        }
+      })
+    }
+  }
+
   async onRegister(form: NgForm) {
     const loading = await this.loadingController.create({
       message: '请稍等...',
     });
     await loading.present();
-    if (this.hasCode()) {
       if (form.valid) {
-        //验证验证码是否正确
-        // await this.onSendSMS();
-        if (this.verify_code == this.return_code) {
           //两次密码输入是否一致
-          if (this.password1 == this.password2) {
+        if (this.register.password1 == this.register.password2) {
             var params = {
-              email: this.register_email,
-              password: this.password1,
-              role_id :this.role
+              username: this.register.username,
+              phone: this.register.phone,
+              code: this.register.code,
+              password: this.register.password1,
+              checkPassword: this.register.password2,
+              roleId: parseInt(this.register.roleId)
+
             }
             // if (this.role == '3') {
             //   params["role_id"] = '3';
@@ -59,7 +102,30 @@ export class RegisterPage implements OnInit {
             var api = '/register';//后台接口
             this.httpService.post(api, params).then(async (response: any) => {
               await loading.dismiss();
-              if (response.data.respCode == 1) {//注册成功
+              if (response.data.message=="请先获取验证码")
+              {
+                this.presentToast(response.data.message)
+              } else if (response.data.message == "验证码输入错误") {
+                this.presentToast('请输入正确的验证码')
+              } else if (response.data.respCode == "该用户名已被注册") {
+                let alert = await this.alertController.create({
+                  header: '提示',
+                  message: '该用户名已注册，请去登录',
+                  buttons: [
+                    {
+                      text: '好的',
+                      role: 'cancel'
+                    },
+                    {
+                      text: '去登录',
+                      handler: () => {
+                        this.router.navigateByUrl('/login');
+                      }
+                    }
+                  ]
+                });
+                alert.present();
+              } else if (response.data.message == "注册成功") {//注册成功
                 let alert = await this.alertController.create({
                   header: '提示',
                   message: '注册成功！',
@@ -69,23 +135,16 @@ export class RegisterPage implements OnInit {
                       cssClass: 'secondary',
                       handler: (blah) => {
                         this.router.navigateByUrl('/lesson-tabs');
-                        localStorage.setItem("email", this.register_email);
+                        localStorage.setItem("phone", this.register.phone);
                         localStorage.setItem("isLogin", "1");
-                        this.getInf(this.register_email);
+                        this.getInf();
                       }
                     }
                   ]
                 });
                 alert.present();
 
-              } else if (response.data.respCode == '该邮箱已经注册过了！') {
-                let alert = await this.alertController.create({
-                  header: '提示',
-                  message: '该邮箱已经注册过了！',
-                  buttons: ['确定']
-                });
-                alert.present();
-              }
+              } 
             })
 
           } else {
@@ -96,65 +155,18 @@ export class RegisterPage implements OnInit {
             });
             toast.present();
           }
-        } else {
-          await loading.dismiss();
-          let toast = await this.toastController.create({
-            message: '验证码不正确！',
-            duration: 2000
-          });
-          toast.present();
-        }
       }
-    }
-  }
-  onSendSMS() {
-    //点击按钮后请求后台数据 开始倒计时
-    if (this.verifyCode.disable == true) {
-      var params = {//后台所需参数
-        phone: this.register_phone,
-      };
-      //获取邮箱，将邮箱发给后台，请求后台返回验证码
-      var api = '/edumam/msm/send/';//后台接口
-      this.httpService.get(api, params).then((response: any) => {
-        console.log(response.data)
-        this.return_code = response.data.respCode;//返回参数
-      })
-      // var api = '/loginByCode';//后台接口
-      // this.httpService.post(api, params).then(async (response: any) => {
-      //   if (response.data.role == "-1") {
-      //     var api = '/sendCode';//后台接口
-      //     this.httpService.post(api, params).then((response: any) => {
-      //       this.return_code = response.data.respCode;//返回参数
-      //     })
-      //     this.verifyCode.disable = false;
-      //     this.settime();
-      //   } else if (response.data.respCode == "账号已被删除！") {
-      //     let alert = await this.alertController.create({
-      //       header: '提示',
-      //       message: '该账号已被删除！',
-      //       buttons: ['确定']
-      //     });
-      //     alert.present();
-      //   } else {
-      //     let alert = await this.alertController.create({
-      //       header: '提示',
-      //       message: '您已注册过到云账号，请直接登录！',
-      //       buttons: ['确定']
-      //     });
-      //     alert.present();
-      //   }
-      // })
-    }
-
   }
 
-  hasCode() {
-    if (this.verify_code != null && this.return_code != null) {
-      return true;
-    } else {
-      return false;
-    }
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000
+    });
+    toast.present();
   }
+ 
+
   settime() {
     if (this.verifyCode.countdown == 1) {
       this.verifyCode.countdown = 60;
@@ -164,23 +176,21 @@ export class RegisterPage implements OnInit {
     } else {
       this.verifyCode.countdown--;
     }
-    this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "秒)";
+    this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "s)";
     setTimeout(() => {
-      this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "秒)";
+      this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "s)";
       this.settime();
     }, 1000);
   }
 
   //获取个人信息
-  getInf(email) {
-    var params = {//后台所需参数
-      email: email,
-    };
-    var api = '/user/info';//后台接口
-    this.httpService.get(api, params).then(async (response: any) => {
+  getInf() {
+    
+    var api = '/common/user/info';//后台接口
+    this.httpService.getAll(api).then(async (response: any) => {
       if (response.status == 200) {
         console.log(response.data.role)
-        localStorage.setItem("role", response.data.role);
+        localStorage.setItem("role_id", response.data.role);
       }
     })
   }

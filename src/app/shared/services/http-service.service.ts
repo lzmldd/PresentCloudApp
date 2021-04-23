@@ -18,14 +18,17 @@ export class HttpServiceService {
   }
 
   //axios方法
-  commonUrl = 'http://www.sunago.top';
+  // commonUrl = 'http://www.sunago.top'; 
+  commonUrl = "/api";
 
   setToken() {
     //请求拦截器 头部设置token
     axios.interceptors.request.use((config) => {
       if (localStorage.getItem("token")) {
         config.headers['Authorization'] = localStorage.getItem("token");
+        // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       }
+      console.log(config)
       return config;
     }, (error) => {
       console.log('错误参数')
@@ -59,7 +62,7 @@ export class HttpServiceService {
   }
   //获取（不携带参数）
   getAll(api) {
-    return new Promise((resolve, reject) => {
+     return new Promise((resolve, reject) => {
       this.setToken();
       axios({
         headers: {
@@ -76,6 +79,7 @@ export class HttpServiceService {
       
     })
   }
+
   //新增
   post(api, params) {
     return new Promise((resolve, reject) => {
@@ -119,6 +123,9 @@ export class HttpServiceService {
         method: 'put',
         url: this.commonUrl + api,
         data: params,
+        headers: {
+          'Content-Type': 'application/json'
+        },
       }).then(function (response) {
         // console.log(response);
         resolve(response);

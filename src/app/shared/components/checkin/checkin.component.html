@@ -1,3 +1,39 @@
-<p>
-  checkin works!
-</p>
+<ion-header translucent>
+  <div style="width: 100%;height: 20px;opacity: 0;"></div>
+  <ion-toolbar>
+    <ion-title>签到方式说明</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">关闭</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-row>
+    <img class="checkinImg" src="../../../../assets/icon/click.png" alt="">
+    <p style="color:#ed9c57;float: left;margin-left: 15px;margin-top: 40px;">限时签到</p>
+    <p style="margin: 10px 30px;">
+      设置签到时长自动结束，更省心。
+    </p>
+  </ion-row>
+  <ion-row>
+    <img class="checkinImg" src="../../../../assets/icon/click.png" alt="">
+    <p style="color:#ed9c57;float: left;margin-left: 15px;margin-top: 40px;">一键签到</p>
+    <p style="margin: 10px 30px;">
+      老师开始签到之后，学生点击“开始签到”即可完成签到。
+    </p>
+  </ion-row>
+  <!-- <ion-row>
+        <img class="checkinImg" src="../../../../assets/icon/gesture.png" alt="">
+        <p style="color:#b41bc7;float: left;margin-left: 15px;margin-top: 40px;">手势签到</p>
+        <p style="margin: 10px 30px;">
+            老师设置签到手势，然后开始签到，学生输入正确手势之后完成签到。
+        </p>
+    </ion-row> -->
+  <ion-row>
+    <img class="checkinImg" src="../../../../assets/icon/manual.png" alt="">
+    <p style="color:#51b110;float: left;margin-left: 15px;margin-top: 40px;">人工签到</p>
+    <p style="margin: 10px 30px;">
+      无需学生参与，老师直接记录出勤情况。
+    </p>
+  </ion-row>
+</ion-content>

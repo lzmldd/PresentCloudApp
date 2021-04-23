@@ -56,29 +56,25 @@ margin: auto;">
             <ion-input style="text-align: right;" slot="end" type="text" name="term" class="my_inf" required placeholder="请选择" [(ngModel)]="lesson.term"></ion-input>
           </ion-item>
 
-          <!-- <ion-item-divider>
-              <ion-label style="margin: auto;font-size: 14px;color: dodgerblue;" (click)="toAdd()">
-                  <ion-icon name="color-filter-outline"></ion-icon>&nbsp;&nbsp;自定义课程</ion-label>
-          </ion-item-divider> -->
           <ion-item-divider>设置学校，院系等其他信息
           </ion-item-divider>
           <ion-item>
               <ion-label slot="start">学校课表班课</ion-label>
               <ion-checkbox slot="end" name="isSchool" [(ngModel)]="markSchool"></ion-checkbox>
           </ion-item>
-          <ion-item (click)="openPicker(1,schoolOptions,school,1)">
-              <ion-label slot="start">学校</ion-label>
-              <ion-note class="my_inf" slot="end">{{selectedSchoolName}}</ion-note>
-          </ion-item>
-          <ion-item (click)="openPicker(1,academyOptions,academy,0)">
-              <ion-label slot="start">学院</ion-label>
-              <ion-note class="my_inf" slot="end">{{selectedAcademyName}}</ion-note>
-          </ion-item>
-          <ion-item routerLink="/lesson-edit" [queryParams]="{title:'学习要求',property:'学习要求',pageNum:'1'}">
+        <ion-item lines="none">
+            <ion-label slot="start">你所在的学校及院系</ion-label>
+            <!-- <ion-note slot="end" class="my_inf">{{selectedName}}</ion-note> -->
+        </ion-item>
+        <ion-item lines="none" color="light" routerLink="/lesson-school" [queryParams]="{title:'选择学校',property:'选择学校',pageNum:'0'}">
+            <ion-note slot="start" class="my_inf">{{selectedName}}</ion-note>
+        </ion-item>
+        
+        <ion-item routerLink="/lesson-edit" [queryParams]="{title:'学习要求',property:'学习要求',pageNum:'1'}">
               <ion-label slot="start">学习要求</ion-label>
               <ion-note slot="end" class="my_inf">{{lesson.learnRequire}}</ion-note>
-          </ion-item>
-          <ion-item routerLink="/lesson-edit" [queryParams]="{title:'教学进度',property:'教学进度',pageNum:'2'}">
+        </ion-item>
+        <ion-item routerLink="/lesson-edit" [queryParams]="{title:'教学进度',property:'教学进度',pageNum:'2'}">
               <ion-label slot="start">教学进度</ion-label>
               <ion-note slot="end" class="my_inf">{{lesson.teachProgress}}</ion-note>
           </ion-item>

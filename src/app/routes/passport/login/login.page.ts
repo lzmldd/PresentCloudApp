@@ -1,5 +1,5 @@
 import { NgForm } from '@angular/forms';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HttpServiceService } from './../../../shared/services/http-service.service';
@@ -15,12 +15,9 @@ export class LoginPage implements OnInit {
   public result: any;
   login = {
     phone: '',
-    password: ''
+    password: '',
+    code:''
   }
-  
-  public verify_code:string = '';
-  public return_code:string = '1';
-  randomnum = null;
   verifyCode: any = {
     verifyCodeTips: "获取验证码",
     countdown: 60,
@@ -30,6 +27,7 @@ export class LoginPage implements OnInit {
     public http: HttpClient, 
     public router: Router,
     public alertController: AlertController,
+    public toastController: ToastController,
     // private iab: InAppBrowser,
     // private qq: QQSDK,
     public loadingController: LoadingController) { }
@@ -46,20 +44,35 @@ export class LoginPage implements OnInit {
       var params = {//后台所需参数
         phone: this.login.phone,
       };
-      var api = '/dcloud/loginCaptcha';//后台接口
+      var api = '/loginCaptcha';//后台接口
       this.httpService.get(api, params).then(async (response: any) => {
-        console.log(response.data);
+        // console.log(response.data);
         // this.result = response.data;
         if (response.data.message == "该手机号未注册，请先注册") {
+          // const toast = await this.toastCtrl.create({
+          //   message: '该手机号未注册，请先注册', // 弹出输入不能为空的文本框
+          //   duration: 2000
+          // });
+          // toast.present();
+          
           let alert = await this.alertController.create({
             header: '提示',
             message: '该手机号未注册，请先注册',
-            buttons: ['确定']
+            buttons: [
+              {
+                text: '好的',
+                role: 'cancel'
+              },
+              {
+                text: '去注册',
+                handler: () => {
+                  this.router.navigateByUrl('/register');
+                }
+              }
+            ]
           });
           alert.present();
         } else {
-          this.return_code = response.data.message.substring(9);
-          console.log(this.return_code)
           this.verifyCode.disable = false;
           this.settime();
         }
@@ -78,35 +91,11 @@ export class LoginPage implements OnInit {
     } else {
       this.verifyCode.countdown--;
     }
-    this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "秒)";
+    this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "s)";
     setTimeout(() => {
-      this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "秒)";
+      this.verifyCode.verifyCodeTips = "重新获取(" + this.verifyCode.countdown + "s)";
       this.settime();
     }, 1000);
-  }
-
-  // 验证码验证
-  async onVerify(form: NgForm) {
-    if (form.valid) {
-      //点击确认，与后台返回的验证码进行对比
-      console.log("输入的验证码为" + this.verify_code);
-      console.log("返回的验证码为" + this.return_code);
-      console.log(this.verify_code == this.return_code)
-      if (this.verify_code == this.return_code) {//相同
-        localStorage.setItem("isLogin", "1");
-        localStorage.setItem("phone", this.login.phone);
-        this.getInf();
-        this.setTime();
-      } else {//不同，弹出提示框
-        let alert = await this.alertController.create({
-          header: '提示',
-          message: '请输入正确的验证码!',
-          buttons: ['确定']
-        });
-        alert.present();
-      }
-
-    }
   }
 
   async onLogin(form: NgForm) {
@@ -118,35 +107,42 @@ export class LoginPage implements OnInit {
       await loading.present();
       if (this.tab == 'tab2') {//验证码登录
         // 点击登录后进行验证码验证
-        // this.onVerify(form);
         params = {//后台所需参数
           usernameOrPhone: this.login.phone,
-          code:this.verify_code
+          code: this.login.code
         };
-        var api = '/dcloud/mobile/loginByCode';//后台接口
+        var api = '/mobile/loginByCode';//后台接口
         
         this.httpService.post(api, params).then(async (response: any) => {
           // console.log(response.data);
-          await loading.dismiss();
+          await loading.dismiss();//"验证码输入错误"
           if (response.data.message == "该手机号未注册，请先注册") {
             let alert = await this.alertController.create({
               header: '提示',
               message: '该手机号未注册，请先注册',
-              buttons: ['确定']
+              buttons: [
+                {
+                  text: '好的',
+                  role: 'cancel'
+                },
+                {
+                  text: '去注册',
+                  handler: () => {
+                    this.router.navigateByUrl('/register');
+                  }
+                }
+              ]
             });
             alert.present();
-          } else if (response.data.message =="验证码不能为空") {
-            let alert = await this.alertController.create({
-              header: '提示',
-              message: '请输入验证码',
-              buttons: ['确定']
-            });
-            alert.present();
-          } 
-          else {
+          } else if (response.data.message == "请先获取验证码") {
+            this.presentToast(response.data.message)
+          } else if (response.data.message == "验证码不能为空") {
+            this.presentToast('请输入验证码')
+          }else if (response.data.message == "验证码输入错误") {
+            this.presentToast('请输入正确的验证码')
+          }else {
             localStorage.setItem("isLogin", "1");
             localStorage.setItem("token", response.data.obj.tokenHead + response.data.obj.token);// 保存拦截器的token
-            localStorage.setItem("phone", this.login.phone);
             this.getInf();
             this.setTime();
           }
@@ -157,7 +153,7 @@ export class LoginPage implements OnInit {
           password: this.login.password
         };
         //将账号密码传给后台，得到返回值，若匹配无误，则进入班课列表界面
-        var api = '/dcloud/mobile/loginByPassword';//后台接口
+        var api = '/mobile/loginByPassword';//后台接口
 
         this.httpService.post(api, params).then(async (response: any) => {
           // console.log(response.data);
@@ -166,14 +162,27 @@ export class LoginPage implements OnInit {
             //获取该user的信息（teacher_id,student_id）
             localStorage.setItem("isLogin", "1");
             localStorage.setItem("token", response.data.obj.tokenHead + response.data.obj.token);
-            localStorage.setItem("phone", this.login.phone);
             this.getInf();
             this.setTime();
-          } else {
+          } else if (response.data.message=="账号被禁用，请联系管理员")
+          {
+            this.presentToast(response.data.message)
+          }else {
             let alert = await this.alertController.create({
               header: '提示',
-              message: '用户名或者密码不正确',
-              buttons: ['确定']
+              message: '手机号/用户名或者密码不正确',
+              buttons: [
+                {
+                  text: '忘记密码',
+                  handler: () => {
+                    this.router.navigateByUrl('/forget-password');
+                  }
+                },
+                {
+                  text: '好的',
+                  role: 'cancel'
+                }
+              ]
             });
             alert.present();
           }
@@ -182,17 +191,26 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000
+    });
+    toast.present();
+  }
+
   //获取个人信息
   getInf() {
-    var api = '/dcloud/user/info';//后台接口
+    var api = '/common/user/info';//后台接口
     // token中有存对应的user信息，因此不用传参数 
     this.httpService.getAll(api).then(async (response: any) => {
-      // console.log(response.data)
+      console.log(response)
       if (response.status == 200) {
-        localStorage.setItem("role", response.data.roleId);
+        localStorage.setItem("role_id", response.data.roleId);
         localStorage.setItem("user_id", response.data.id);
-        // console.log(localStorage.getItem("role") =='undefined')
-        if (localStorage.getItem("role") != 'undefined') {
+        localStorage.setItem("phone", response.data.phone);
+        // console.log(localStorage.getItem("role_id") !='undefined')
+        if (localStorage.getItem("role_id") != 'undefined') {// 本地存储取的undefined是字符串
           this.router.navigateByUrl('/lesson-tabs/mylesson');
         }
         else {

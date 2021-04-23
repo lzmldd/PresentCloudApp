@@ -1,0 +1,70 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button color="medium" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title  style="text-align:center;font-size: 18px;">{{title}}</ion-title>
+    <ion-buttons *ngIf="flag=='1'" slot="end">
+      <ion-button style="font-size: 15px;" color="medium" (click)="refresh()">刷新</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="checkinType=='1'">
+    <ion-list lines="full" color="light">
+      <ion-item>
+        <ion-label >开始时间:</ion-label>
+        <ion-datetime slot="end" value="04-21 13:47:20"  [(ngModel)]="startTime" [disabled]="true" style="color:rgb(0, 0, 0);opacity:1" displayFormat="MM月-DD日 HH:mm:ss"
+          cancelText="取消" doneText="确认"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>结束时间:</ion-label>
+        <ion-datetime slot="end" value="04-21 13:47:20"  [(ngModel)]="endTime" [disabled]="true" style="color:rgb(0, 0, 0);opacity:1" displayFormat="MM月-DD日 HH:mm:ss"
+          cancelText="取消" doneText="确认"></ion-datetime>
+      </ion-item>
+      <ion-item lines="none"></ion-item>
+      <ion-item lines="none"></ion-item>
+      <ion-item lines="none">
+        <ion-label  style="color:rgb(0, 0, 0);opacity:1" style="text-align:center;"  >剩余签到时长</ion-label>
+        <ion-datetime slot="end" placeholder="00:00:00" value="00:00:00" [(ngModel)]="showCounDown"  [disabled]="true" style="color:rgb(255, 0, 0);opacity:1;font-size: 30px;"
+         displayFormat="HH:mm:ss" cancelText="取消" doneText="确认"> </ion-datetime>
+      </ion-item>
+    </ion-list>
+
+    <!-- <div>
+      <ion-list >
+        <ion-item lines="none">
+          <ion-label style="text-align:center;">剩余签到时长</ion-label>
+          <ion-datetime slot="end" [(ngModel)]="showCounDown" displayFormat="HH:mm:ss" cancelText="取消" doneText="确认"></ion-datetime>
+        </ion-item>
+      </ion-list>
+    </div> -->
+  </div>
+
+  <div *ngIf="flag=='0'" class="my-circle">
+    <h3 style="position: relative;top: 25%;" (click)="checkin()">{{title}}</h3>
+    <!-- <h5 style="margin-top: 30px;">{{checkinNum}}/{{totalNum}}</h5> -->
+  </div>
+  <div *ngIf="flag=='1'" class="my-circle">
+    <h3 style="position: relative;top: 15%;">{{title}}</h3>
+    <h5 style="margin-top: 30px;">{{signedCount}}/{{total}}</h5>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="flag=='1'">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="col-btn" (click)="giveupCheckin()">
+        <ion-button fill="clear">放弃</ion-button>
+      </ion-col>
+      <ion-col>
+        <div></div>
+      </ion-col>
+      <ion-col class="col-btn" (click)="endCheckin()">
+        <ion-button fill="clear">结束</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
