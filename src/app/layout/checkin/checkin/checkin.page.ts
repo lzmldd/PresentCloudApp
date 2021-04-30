@@ -110,10 +110,10 @@ export class CheckinPage implements OnInit {
       await loading.dismiss();
       if (response.data.message == "签到成功") {
         this.presentToast(response.data.message)
-        this.router.navigateByUrl('lesson-tabs/mylesson');
+        this.router.navigateByUrl('home-tabs/mylesson');
       } else if (response.data.message == "已签到成功") {
         this.presentToast(response.data.message+",请勿重复签到")
-        this.router.navigateByUrl('lesson-tabs/mylesson');
+        this.router.navigateByUrl('home-tabs/mylesson');
       } else {
         // this.getHistory();
         this.presentToast(response.data.message)
@@ -245,8 +245,8 @@ export class CheckinPage implements OnInit {
       await loading.dismiss();
       if (response.data.message == "权限不足，请联系管理员！") {
         this.stopRequest()
-        this.presentToast(response.data.message)
-        this.router.navigateByUrl('lesson-tabs/mylesson');
+        // this.presentToast(response.data.message)
+        this.router.navigateByUrl('home-tabs/mylesson');
       }
       else {
         this.signedCount = response.data.obj.signedCount;
@@ -307,7 +307,7 @@ export class CheckinPage implements OnInit {
                   queryParams: { flag: 1, checkinId: this.checkinId, checkinType: this.checkinType, } });
               }
               else
-                this.router.navigateByUrl('/lesson-tabs/mylesson');
+                this.router.navigateByUrl('/home-tabs/mylesson');
             }
           }
         ]

@@ -114,9 +114,13 @@ export class LoginPage implements OnInit {
         var api = '/mobile/loginByCode';//后台接口
         
         this.httpService.post(api, params).then(async (response: any) => {
-          // console.log(response.data);
-          await loading.dismiss();//"验证码输入错误"
-          if (response.data.message == "该手机号未注册，请先注册") {
+          await loading.dismiss();
+          if (response.data.code == 200) {// 登陆成功
+            localStorage.setItem("isLogin", "1");
+            localStorage.setItem("token", response.data.obj.tokenHead + response.data.obj.token);// 保存拦截器的token
+            this.getInfo();
+            this.setLoginTime();
+          } else if (response.data.message == "该手机号未注册，请先注册") {// 登陆失败，code=500
             let alert = await this.alertController.create({
               header: '提示',
               message: '该手机号未注册，请先注册',
@@ -140,12 +144,7 @@ export class LoginPage implements OnInit {
             this.presentToast('请输入验证码')
           }else if (response.data.message == "验证码输入错误") {
             this.presentToast('请输入正确的验证码')
-          }else {
-            localStorage.setItem("isLogin", "1");
-            localStorage.setItem("token", response.data.obj.tokenHead + response.data.obj.token);// 保存拦截器的token
-            this.getInf();
-            this.setTime();
-          }
+          } 
         })
       } else {//密码登录
         params = {//后台所需参数
@@ -158,19 +157,18 @@ export class LoginPage implements OnInit {
         this.httpService.post(api, params).then(async (response: any) => {
           // console.log(response.data);
           await loading.dismiss();
-          if (response.data.code == 200) {
-            //获取该user的信息（teacher_id,student_id）
+          if (response.data.code == 200) {// 登录成功
             localStorage.setItem("isLogin", "1");
             localStorage.setItem("token", response.data.obj.tokenHead + response.data.obj.token);
-            this.getInf();
-            this.setTime();
-          } else if (response.data.message=="账号被禁用，请联系管理员")
+            this.getInfo();
+            this.setLoginTime();
+          } else if (response.data.message == "账号被禁用，请联系管理员")// 登陆失败，code=500
           {
             this.presentToast(response.data.message)
-          }else {
+          } else if (response.data.message == "用户名/手机号或密码输入错误"){
             let alert = await this.alertController.create({
               header: '提示',
-              message: '手机号/用户名或者密码不正确',
+              message: '手机号或密码输入错误',
               buttons: [
                 {
                   text: '忘记密码',
@@ -200,7 +198,7 @@ export class LoginPage implements OnInit {
   }
 
   //获取个人信息
-  getInf() {
+  getInfo() {
     var api = '/common/user/info';//后台接口
     // token中有存对应的user信息，因此不用传参数 
     this.httpService.getAll(api).then(async (response: any) => {
@@ -211,7 +209,7 @@ export class LoginPage implements OnInit {
         localStorage.setItem("phone", response.data.phone);
         // console.log(localStorage.getItem("role_id") !='undefined')
         if (localStorage.getItem("role_id") != 'undefined') {// 本地存储取的undefined是字符串
-          this.router.navigateByUrl('/lesson-tabs/mylesson');
+          this.router.navigateByUrl('/home-tabs/mylesson');
         }
         else {
           console.log('未知错误')
@@ -220,7 +218,7 @@ export class LoginPage implements OnInit {
     })
   }
 
-  setTime() {
+  setLoginTime() {
     let myDate = new Date();
     //获取当前年
     var year = myDate.getFullYear();
@@ -233,73 +231,10 @@ export class LoginPage implements OnInit {
     var s = myDate.getSeconds() < 10 ? '0' + myDate.getSeconds() : '' + myDate.getSeconds();
     localStorage.setItem("loginTime", year + "/" + month + "/" + date + " " + h + ":" + m + ":" + s);
   }
-  isOverTime() {
-    let endDate = new Date();
-    let startDate = localStorage.getItem("loginTime");
-    //时间差的毫秒数 
-    let date3 = endDate.getTime() - new Date(startDate).getTime();
-    //计算出相差天数
-    var days = Math.floor(date3 / (24 * 3600 * 1000));
-    // //计算出小时数
-    // var leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数
-    // var hours=Math.floor(leave1/(3600*1000))
-    // //计算相差分钟数
-    // var leave2=leave1%(3600*1000)        //计算小时数后剩余的毫秒数
-    // var minutes=Math.floor(leave2/(60*1000))
-    // //计算相差秒数
-    // var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-    // var seconds=Math.round(leave3/1000)
-    // alert(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
-
-    if (days > 30) {
-      return false;
-    } else {
-      return true;
-    }
-
-  }
   
 
 
-  // loginByQQ() {
-  //   var api = "/getQQCode";
-
-  //   this.httpService.getAll(api).then(async (response: any) => {
-  //     console.log(response.data.url);
-  //     const browser = this.iab.create(response.data.url);
-  //   })
-  //   // const options: QQShareOptions = {
-  //   //   client: this.qq.ClientType.QQ,
-  //   //   scene: this.qq.Scene.QQ,
-  //   //   title: 'This is a title for cordova-plugin-qqsdk',
-  //   //   url: 'https://cordova.apache.org/',
-  //   //   image: 'https://cordova.apache.org/static/img/cordova_bot.png',
-  //   //   description: 'This is  Cordova QQ share description',
-  //   //   flashUrl:  'http://stream20.qqmusic.qq.com/30577158.mp3',
-  //   // }
-
-  //   // const clientOptions: QQShareOptions = {
-  //   //   client: this.qq.ClientType.QQ,
-  //   // }
-
-  //   // const shareTextOptions: QQShareOptions = {
-  //   //   client: this.qq.ClientType.QQ,
-  //   //   text: 'This is Share Text',
-  //   //   scene: this.qq.Scene.QQ,
-  //   // }
-
-  //   // this.qq.ssoLogin(clientOptions)
-  //   //    .then(result => {
-  //   //       // Success
-  //   //       console.log('token is ' + result.access_token);
-  //   //       console.log('userid is ' + result.userid);
-  //   //       console.log('expires_time is ' + new Date(parseInt(result.expires_time)) + ' TimeStamp is ' + result.expires_time);
-  //   //    })
-  //   //    .catch(error => {
-  //   //      console.log(clientOptions);
-  //   //       console.log(error); // Failed
-  //   //    });
-
+  
   }
 
 

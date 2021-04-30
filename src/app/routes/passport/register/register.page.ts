@@ -95,11 +95,9 @@ export class RegisterPage implements OnInit {
               roleId: parseInt(this.register.roleId)
 
             }
-            // if (this.role == '3') {
-            //   params["role_id"] = '3';
-            // }
             console.log(params);
-            var api = '/register';//后台接口
+          // var api = '/register';//后台接口
+          var api = '/mobile/quickRegister'
             this.httpService.post(api, params).then(async (response: any) => {
               await loading.dismiss();
               if (response.data.message=="请先获取验证码")
@@ -134,7 +132,7 @@ export class RegisterPage implements OnInit {
                       text: '确认',
                       cssClass: 'secondary',
                       handler: (blah) => {
-                        this.router.navigateByUrl('/lesson-tabs');
+                        this.router.navigateByUrl('/home-tabs/mylesson');
                         localStorage.setItem("phone", this.register.phone);
                         localStorage.setItem("isLogin", "1");
                         this.getInf();

@@ -9,7 +9,7 @@
   "type": "angular",
   "proxies": [
     {
-      "path": "/", 
+      "path": "/api", 
       "proxyUrl": "http://www.sunago.top/"
     }
   ]

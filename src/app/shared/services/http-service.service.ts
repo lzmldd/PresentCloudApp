@@ -1,19 +1,22 @@
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import axios from 'axios';
-@Injectable({providedIn: 'root'})
-export class ServiceNameService {
-  constructor(private httpClient: HttpClient) { }
+
+// @Injectable({providedIn: 'root'})
+// export class ServiceNameService {
+//   constructor(private httpClient: HttpClient) { }
   
-}
+// }
 @Injectable({
   providedIn: 'root'
 })
 export class HttpServiceService {
 
-  constructor(public http: HttpClient,
+  constructor(
+    // public http: HttpClient,
     public alertController: AlertController,
+    public toastController: ToastController,
     ) {
   }
 
@@ -26,22 +29,37 @@ export class HttpServiceService {
     axios.interceptors.request.use((config) => {
       if (localStorage.getItem("token")) {
         config.headers['Authorization'] = localStorage.getItem("token");
-        // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        config.headers['Content-Type'] = 'application/json';
       }
-      console.log(config)
       return config;
     }, (error) => {
-      console.log('错误参数')
       return Promise.reject(error);
     });
     //响应拦截器
     axios.interceptors.response.use((success) => {
-      console.log(success.data)
+      if (success.status==500)
+      {
+        this.presentToast('服务器错误')
+      } else if (success.data.code == 404) {
+        this.presentToast('找不到你想要的页面！')
+      }else if (success.data.code == 403) {
+        this.presentToast('权限不足，请联系管理员！')
+      }else{
+        console.log(success.data)
+      }
+      
       return success;
     }, (error) => {
-      console.log('出现错误')
       Promise.reject(error);
     });
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000
+    });
+    toast.present();
   }
 
   //获取
@@ -65,9 +83,9 @@ export class HttpServiceService {
      return new Promise((resolve, reject) => {
       this.setToken();
       axios({
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        // headers: {
+        //   'Content-Type': 'application/json'
+        // },
         method: 'get',
         url: this.commonUrl + api
       }).then(function (response) {
@@ -88,9 +106,9 @@ export class HttpServiceService {
         method: 'post',
         url: this.commonUrl + api,
         data: params,
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        // headers: {
+        //   'Content-Type': 'application/json'
+        // },
       }).then(function (response) {
         resolve(response);
       })
@@ -123,11 +141,10 @@ export class HttpServiceService {
         method: 'put',
         url: this.commonUrl + api,
         data: params,
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        // headers: {
+        //   'Content-Type': 'application/json'
+        // },
       }).then(function (response) {
-        // console.log(response);
         resolve(response);
       })
         .catch(function (error) {
@@ -154,7 +171,7 @@ export class HttpServiceService {
         });
     })
   }
-  //   //删除
+  //删除
   delete(api, params) {
     return new Promise((resolve, reject) => {
       this.setToken();
