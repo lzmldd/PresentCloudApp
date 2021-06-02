@@ -1,0 +1,151 @@
+<ion-header mode="ios">
+  <ion-toolbar color="secondary">
+    <!-- <div style="width:100%;height:20px;background:white"></div> -->
+    <ion-buttons slot="start">
+      <ion-button color="light" expand="block" fill="clear" shape="round" [routerLink]="['/home-tabs/mylesson']">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="text-align:center;margin-right: 30px;">{{lesson.name}}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar style="--background:linear-gradient(#3dc2ff 0%,#3dc2ff 60%,white 60%,white 100%);--border-width: 0 0 0px;">
+    <!-- <div style="width:100%；height：100px;color:blue"></div> -->
+    <ion-card mode="ios">
+      <ion-item lines="none">
+        <ion-thumbnail class="thum">
+          <img src={{lesson.picture}}>
+          <!-- <ion-icon class="thum-icon" color="light" name="cloud-circle-outline"></ion-icon> -->
+        </ion-thumbnail>
+        <ion-label>
+          <h3>&nbsp;&nbsp;{{lesson.className}}</h3>
+          <h3>&nbsp;&nbsp;{{lesson.name}}</h3>
+          <p>&nbsp;&nbsp;{{lesson.teacherName}}</p>
+          <p>&nbsp;&nbsp;{{lesson.term}}&nbsp;{{schoolLesson}}</p>
+        </ion-label>
+        <ion-button *ngIf="isTeacher == '1'" fill="clear" [routerLink]="['/lesson-info-edit']" style="margin-top: -40px; width: 30px;">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="ios">
+  <ion-list *ngIf="isTeacher == '1'" lines="full">
+    <ion-item lines="none">
+      <ion-label slot="start">
+        <p>班课号</p>
+      </ion-label>
+      <ion-label >
+        <p>{{lesson.courseCode}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="full" routerLink="/create-success" [queryParams]="{courseCode:lesson.courseCode} ">
+      <ion-label slot="start">
+        <p>班课二维码</p>
+      </ion-label>
+      <!-- <ion-label slot="end"> -->
+      <ion-icon slot="end" name="qr-code-outline" style="color: gray;"></ion-icon>
+      <!-- </ion-label> -->
+    </ion-item>
+    
+    <ion-item lines="full">
+      <ion-label slot="start">
+        <h3>允许加入</h3>
+      </ion-label>
+      <ion-checkbox mode="md" slot="end" color="secondary" (click)="updateAllowIn()" [(ngModel)]="lesson.allowIn"></ion-checkbox>
+    </ion-item>
+
+    <ion-item routerLink="/lesson-school" [queryParams]="{title:'选择学校',property:'选择学校',pageNum:'6'}">
+      <ion-label>
+        <h3>学校院系</h3>
+        <p>{{selectedName}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item routerLink="/lesson-detail-edit" [queryParams]="{title:'学习要求',property:'学习要求',pageNum:'1'}">
+      <ion-label>
+        <h3>学习要求</h3>
+        <p>{{lesson.learnRequire}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item routerLink="/lesson-detail-edit" [queryParams]="{title:'教学进度',property:'教学进度',pageNum:'2'}">
+      <ion-label>
+        <h3>教学进度</h3>
+        <p>{{lesson.teachProgress}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item routerLink="/lesson-detail-edit" [queryParams]="{title:'考试安排',property:'考试安排',pageNum:'3'}">
+      <ion-label>
+        <h3>考试安排</h3>
+        <p>{{lesson.examSchedule}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="isTeacher == '0'" lines="full">
+    <ion-item lines="none">
+      <ion-label slot="start">
+        <p>班课号</p>
+      </ion-label>
+      <ion-label>
+        <p>{{lesson.courseCode}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="full" routerLink="/create-success" [queryParams]="{courseCode:lesson.courseCode} ">
+      <ion-label slot="start">
+        <p>班课二维码</p>
+      </ion-label>
+      <!-- <ion-label slot="end"> -->
+      <ion-icon slot="end" name="qr-code-outline" style="color: gray;"></ion-icon>
+      <!-- </ion-label> -->
+    </ion-item>
+    
+    <ion-item lines="full">
+      <ion-label slot="start">
+        <h3>允许加入</h3>
+      </ion-label>
+      <ion-label *ngIf="lesson.allowIn == '1'" slot="end">
+        <h3>已允许</h3>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h3>学校院系</h3>
+        <p>{{selectedName}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>学习要求</h3>
+        <p>{{lesson.learnRequire}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>教学进度</h3>
+        <p>{{lesson.teachProgress}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>考试安排</h3>
+        <p>{{lesson.examSchedule}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-item *ngIf="isTeacher == '1'" class="lesson-row" lines="none" style="border:solid 1px red;">
+    <ion-button class="lesson-btn" fill="clear" style="color:red" (click)="deleteLesson()">删除班课</ion-button>
+  </ion-item>
+
+  <ion-item *ngIf="isTeacher == '0'" class="lesson-row" lines="none" style="border:solid 1px red;">
+    <ion-button class="lesson-btn" fill="clear" style="color:red" (click)="outLesson()">退出班课</ion-button>
+  </ion-item>
+  <!-- <ion-item class="lesson-row" lines="none" style="border:solid 1px gray;">
+    <ion-button class="lesson-btn" fill="clear" style="color:gray">删除班课</ion-button>
+  </ion-item> -->
+  <!-- <ion-item>
+    <ion-label><p>只有已结束的班课可以被删除</p></ion-label>
+  </ion-item> -->
+</ion-content>

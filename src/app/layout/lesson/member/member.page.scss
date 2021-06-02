@@ -1,0 +1,40 @@
+.circle{
+    margin: auto;
+    line-height: 85px;
+    font-size: 30px;
+    width: 80px;
+    height: 80px;
+}
+
+.my-thum{
+    text-align: center;
+    background-color: #3dc2ff;
+    // border-radius: 5px;
+    width: 80px;
+    height:80px;
+    margin: auto;
+    margin-top:10px;
+}
+
+.my-thum-icon{
+    margin: auto;
+    line-height: 85px;
+    font-size: 30px;
+    width: 50%;
+    height: 100%;
+}
+
+.text1{
+    font-size: 28px;
+    text-align: center;
+    display: block;
+    color: var(--ion-color-primary-contrast);
+}
+
+.text2{
+    margin-top:10px;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    color: var(--ion-color-primary-contrast);
+}

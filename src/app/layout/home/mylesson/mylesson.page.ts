@@ -48,7 +48,7 @@ export class MylessonPage implements OnInit {
     public router: Router,
     public actionSheetController: ActionSheetController,
     public loadingController: LoadingController,
-    private activatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute,
     public pickerController: PickerController,
     public toastController: ToastController,
     public alertController: AlertController,
@@ -65,7 +65,7 @@ export class MylessonPage implements OnInit {
       this.list = [];//教师班课列表
       this.list1 = [];//学生班课列表
       this.index = 0;
-      if (queryParams.flush == '1') {
+      if (queryParams.create == '1') {
         this.flag = '0';
         this.getCreateLesson();
       } else if (queryParams.delete == '1') {
@@ -199,25 +199,21 @@ export class MylessonPage implements OnInit {
     })
   }
 
-  // get() {
-  //   console.log("tab" + this.tab);
-  // }
   getCurrentLesson(index) {
-    // 获取点击的班课名和班课号
-    localStorage.setItem("select_lessonName", this.lessonList[index].name);
+    // 获取点击的班课号和班课id
+    localStorage.setItem("select_courseName", this.lessonList[index].name);
     localStorage.setItem("select_courseCode", this.lessonList[index].courseCode);
+    localStorage.setItem("course_id", this.lessonList[index].id);
     if (this.tab == 'tab1') {
       localStorage.setItem("isTeacher", '1');
     } else {
       localStorage.setItem("isTeacher", '0');
     }
-    // this.router.navigateByUrl("/tabs/member],")
   }
 
-
-
   async checkin(index) {
-    localStorage.setItem("select_lessonName", this.lessonList[index].name);
+    localStorage.setItem("select_courseName", this.lessonList[index].name);
+    localStorage.setItem("select_courseCode", this.lessonList[index].courseCode);
     localStorage.setItem("course_id", this.lessonList[index].id);
     if (localStorage.getItem("role_id") == '2') {// 教师发起签到
       const actionSheet = await this.actionSheetController.create({
@@ -270,7 +266,7 @@ export class MylessonPage implements OnInit {
 
   }
 
-  gotoCheckin(checkinFlage) {// checkinFlage 0代表一键签到，1代表限时签到
+  gotoCheckin(checkinFlage) {
     // 发起签到，点击跳转到签到页面
     var cid = localStorage.getItem("course_id")
     var api = '/sign/haveSign/' + cid
@@ -370,8 +366,7 @@ export class MylessonPage implements OnInit {
         {
           text: '签到时长',
           cssClass: 'color:secondary'
-        }
-        ,
+        },
         {
           text: '立即开始',
           handler: (value) => {
@@ -435,15 +430,9 @@ export class MylessonPage implements OnInit {
         mode: "ios",
         buttons: [
           {
-            text: '使用班课号加入班课',
+            text: '加入班课',
             handler: () => {
               this.router.navigateByUrl('join-by-code');
-            }
-          },
-          {
-            text: '使用二维码加入班课',
-            handler: () => {
-              this.router.navigateByUrl('qr-scanner');
             }
           },
           {

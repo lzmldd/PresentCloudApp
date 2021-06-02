@@ -1,0 +1,58 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/lesson-tabs/member']"
+        [queryParams]="{isFlash:'1'}">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="historyFlag == '0'" style="text-align:center;margin-right: 30px;">签到</ion-title>
+    <ion-title *ngIf="historyFlag == '1'" style="text-align:center;margin-right: 30px;">签到明细</ion-title>
+  </ion-toolbar>
+  <!-- <div *ngIf="historyFlag == '0'" class="my-circle" (click)="getLocation()" style="margin-top:20px">
+    <p style="position: relative;top: 40%;margin: 0px;font-size: 16px;">参与签到</p>
+  </div> -->
+  <div *ngIf="historyFlag == '0'" (click)="gotoCheckin()" style="color:#3dc2ff;margin-top:20px">
+    <p style="text-align:center">参与签到</p>
+  </div>
+  <ion-item-divider *ngIf="historyFlag == '0'" class="row-text">
+    <ion-label>历史签到记录</ion-label>
+    <ion-note slot="end" color="tertiary" style="padding: 10px 0 0 0;font-size: 15px;margin-right: 10px;">{{percent}}
+    </ion-note>
+    <!-- <ion-checkbox slot="end" color="primary" (click)="selectAllAbsence()" [(ngModel)]="isSelectAllAbsence"
+      *ngIf="show==true" style="margin-left:0px;margin-right: 17px;"></ion-checkbox> -->
+  </ion-item-divider>
+  <ion-item-divider *ngIf="historyFlag == '1'">
+    <ion-label>历史签到记录</ion-label>
+    <ion-note slot="end" color="tertiary" style="padding: 10px 0 0 0;font-size: 15px;margin-right: 10px;">{{percent}}
+    </ion-note>
+    <!-- <ion-checkbox slot="end" color="primary" (click)="selectAllAbsence()" [(ngModel)]="isSelectAllAbsence"
+      *ngIf="show==true" style="margin-left:0px;margin-right: 17px;"></ion-checkbox> -->
+  </ion-item-divider>
+</ion-header>
+
+<ion-content mode="ios">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item *ngFor="let item of checkHistory" lines="full">
+      <ion-label>
+        <h4>{{item.startTime.substring(0,10)}} {{item.dayOfWeek}} 一键签到</h4>
+        <p>{{item.startTime.substring(11,16)}} </p>
+      </ion-label>
+      <ion-note *ngIf="item.status=='0'" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;" >
+        缺勤</ion-note>
+      <ion-note *ngIf="item.status=='2'" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;">
+        请假</ion-note>
+      <ion-note *ngIf="item.status=='3'" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;">
+        迟到</ion-note>
+      <ion-note *ngIf="item.status=='4'" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;">
+        早退</ion-note>
+      <ion-note *ngIf="item.status=='1'" slot="end" color="success" style="font-size: 15px;margin-top: 4px;" >
+        已签到</ion-note>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

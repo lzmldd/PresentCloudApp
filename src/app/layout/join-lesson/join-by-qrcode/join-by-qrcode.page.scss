@@ -1,0 +1,37 @@
+.scanner{  // 一定要将ion-content设置为背景透明，否则看不到摄像头画面
+    --background: none transparent !important;
+    background: none transparent !important;
+    --color: white;
+    ion-icon{ 
+        color: white;
+        font-size: 20px;
+    }
+}
+.scanner-button-bottom{
+    position: absolute;
+    bottom: 45px;
+    left: auto;
+    right: auto;
+    width: 100%;
+    .qr-scanner-button{
+        width: 75px;
+        height: 75px;
+        border-radius: 100%;
+        background: rgba(0, 0, 0, 0.3);
+    }
+}
+.qr-scanner-area{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100% - 45px - 103px);
+    background: url('./../../../../assets/img/scanner.svg') no-repeat center ;
+    background-size: 100% 100%;
+    .lines{
+        width: 58%;
+        height: 2px;
+        background: var(--ion-color-primary);
+        animation: lines 2s linear infinite alternate;
+    }
+}

@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./checkin-result.page.scss'],
 })
 export class CheckinResultPage implements OnInit {
-  public type = 0;
+  
   public absenceList = [];
   public attendanceList = []
   public show = false;
@@ -18,35 +18,27 @@ export class CheckinResultPage implements OnInit {
   public isSelectAllAttendance = false;
   public attendanceTotal = 0;
   public absenceTotal = 0;
-  public api = "/attendenceResult";
   public checkinId =-1;
-
+  
   constructor(public actionSheetController: ActionSheetController,
     public modalController: ModalController,
     public router: Router,
     public loadingController: LoadingController,
     public httpService: HttpServiceService,
     public toastController: ToastController,
-    public activateInfo: ActivatedRoute) {
-    activateInfo.queryParams.subscribe(queryParams => {
+    public activatedRoute: ActivatedRoute) {
+    activatedRoute.queryParams.subscribe(queryParams => {
       this.checkinId = queryParams.checkinId
-      this.type = queryParams.type;
-      if (queryParams.success == '1') {
-        this.getData();
-      }
     })
   }
   
   ngOnInit() {
-    this.activateInfo.queryParams.subscribe(queryParams => {
-      this.type = queryParams.type;
-    })
-    if (this.type == 1) {
-      this.startManual()
-    } else {
-      this.getData();
-    }
   }
+
+  ionViewWillEnter() {
+    this.getData();
+  }
+
   async getData() {
     const loading = await this.loadingController.create({
       message: 'Please wait...',
@@ -54,18 +46,18 @@ export class CheckinResultPage implements OnInit {
     await loading.present();
     var api = '/sign/records/' + this.checkinId
     this.httpService.getAll(api).then(async (response: any) => {
-      var res = response.data.obj
       await loading.dismiss();
+      var res = response.data.obj
       this.absenceList = res.unSignedList;
-      console.log(this.absenceList)
       this.absenceTotal = res.total - res.signedCount;
-      console.log(this.absenceList)
+      // console.log(this.absenceList)
       this.attendanceList = res.signedList;
       this.attendanceTotal = res.signedCount;
     })
     this.show = false;
     this.checkText = "多选";
   }
+
   async presentToast(str) {
     const toast = await this.toastController.create({
       message: str,
@@ -190,29 +182,34 @@ export class CheckinResultPage implements OnInit {
       buttons: [{
         text: '设为缺勤',
         role: 'destructive',
-        // icon: 'heart-dislike-outline',
-        handler: () => {
-          this.setState(item, 2)
-        }
-      }, {
-        text: '设为请假',
-        // icon: 'mail-outline',
-        handler: () => {
-          this.setState(item, 1)
-        }
-      },
-      {
-        text: '设为已签到',
-        // icon: 'heart-outline',
         handler: () => {
           this.setState(item, 0)
         }
       }, {
+        text: '设为请假',
+        handler: () => {
+          this.setState(item, 2)
+        }
+      }, {
+        text: '设为迟到',
+        handler: () => {
+          this.setState(item, 3)
+        }
+      }, {
+        text: '设为早退',
+        handler: () => {
+          this.setState(item, 4)
+        }
+      },
+      {
+        text: '设为已签到',
+        handler: () => {
+          this.setState(item, 1)
+        }
+      }, {
         text: '取消',
-        // icon: 'close',
         role: 'cancel',
         handler: () => {
-          // console.log('Cancel clicked');
         }
       }]
     });
@@ -220,55 +217,36 @@ export class CheckinResultPage implements OnInit {
   }
   
   setState(i, type) {
-    var data = [];
-    if (this.show == true) {
+    var studentIds = [];
+    if (this.show == true) {// 多选
+      console.log('多选')
       this.absenceList.forEach(item => {
         if (item.checked == true) {
-          var params = {
-            student_email: item.email,
-            code: localStorage.getItem("lesson_no"),
-            attend_id: localStorage.getItem("attend_id"),
-            type: type
-          }
-          data.push(params)
+          studentIds.push(item.id)
         }
       });
       this.attendanceList.forEach(item => {
         if (item.checked == true) {
-          var params = {
-            student_email: item.email,
-            code: localStorage.getItem("lesson_no"),
-            attend_id: localStorage.getItem("attend_id"),
-            type: type
-          }
-          data.push(params)
+          studentIds.push(item.id)
         }
       });
     } else {
-      var params = {
-        student_email: i.email,
-        code: localStorage.getItem("lesson_no"),
-        attend_id: localStorage.getItem("attend_id"),
-        type: type
-      }
-      data.push(params);
-      // console.log("999")
+      console.log('单选')
+      studentIds.push(i.id);
     }
-    // if (data.length==0) {
-    //   this.presentToast("请至少选中一条数据");
-    // } else {
-    var api = "/attendenceResult/change"
-    this.httpService.put(api, data).then(async (response: any) => {
-      // console.log(response.data)
-      if (response.data.respCode == "1") {
+    console.log(studentIds)
+    var params = {
+      signId: this.checkinId,
+      status: type,
+      studentIds: studentIds,  
+    }
+    var api = '/sign/status'
+    this.httpService.put(api, params).then(async (response: any) => {
+      if (response.data.code == 200) {
         this.presentToast("状态修改成功！");
-      } else {
-        this.presentToast(response.data);
-      }
+        this.getData();
+      } 
     })
-    this.getData();
-    // }
-
   }
   setAllState() {
     var sum = 0;
@@ -295,19 +273,5 @@ export class CheckinResultPage implements OnInit {
       }
     })
   }
-  async startManual() {
-    const loading = await this.loadingController.create({
-      message: 'Please wait...',
-    });
-    await loading.present();
-    var params = {
-      code: localStorage.getItem("lesson_no")
-    }
-    var api = "/attendence/hand"
-    this.httpService.put(api, params).then(async (response: any) => {
-      await loading.dismiss();
-      localStorage.setItem("attend_id", response.data);
-      this.getData();
-    })
-  }
+  
 }

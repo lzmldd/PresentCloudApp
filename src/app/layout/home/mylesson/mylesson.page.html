@@ -40,7 +40,7 @@
               <ion-row>
                 <!-- 获取点击的班课名和班课号 -->
                 <ion-col size="2">
-                  <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] "
+                  <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/lesson-tabs/member'] "
                     [queryParams]="{isFlash:'1'}">
                     <!-- <ion-icon class="thum-icon" color="light" name="cloud-circle-outline">
                                     </ion-icon> -->
@@ -48,7 +48,7 @@
                   </ion-thumbnail>
                 </ion-col>
                 <ion-col size="6.5">
-                  <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] "
+                  <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/lesson-tabs/member'] "
                     [queryParams]="{isFlash:'1'}">
                     <h3>&nbsp;&nbsp;&nbsp;{{item.name}}&nbsp;&nbsp;</h3>
                     <p>&nbsp;&nbsp;&nbsp;{{item.className}}&nbsp;&nbsp;</p>
@@ -59,7 +59,7 @@
                   <ion-label style="margin-top: auto;padding-left:5px">
                     <!-- 发起签到，点击跳转到签到页面 -->
                     <!-- <p>&nbsp;&nbsp;</p> -->
-                    <p (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] " [queryParams]="{isFlash:'1'}"
+                    <p (click)="getCurrentLesson(i)" [routerLink]=" [ '/lesson-tabs/member'] " [queryParams]="{isFlash:'1'}"
                       style="color:#50c8ff">{{item.courseCode}}</p>
                     <ion-label style="text-align: -webkit-right;float: left;" (click)="checkin(i)">
                       <ion-icon name="shield-checkmark-outline"></ion-icon>
@@ -121,12 +121,12 @@
       <div *ngIf="flag == '1'">
         <ion-list lines="full" *ngFor="let item of list1;let i = index">
           <!-- <ion-item-divider style="padding-left:0px"> -->
-          <!-- <ion-item [routerLink]=" [ '/tabs/member'] "   [queryParams]="{isFlash:'1'}" (click)="getCurrentLesson(i) "> -->
+          <!-- <ion-item [routerLink]=" [ '/lesson-tabs/member'] "   [queryParams]="{isFlash:'1'}" (click)="getCurrentLesson(i) "> -->
           <ion-item style="width:100%">
             <ion-grid>
               <ion-row>
                 <ion-col size="2">
-                  <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] "
+                  <ion-thumbnail class="thum" (click)="getCurrentLesson(i)" [routerLink]=" [ '/lesson-tabs/member'] "
                     [queryParams]="{isFlash:'1'}">
                     <!-- <ion-icon class="thum-icon " color="light " name="cloud-circle-outline">
                                       </ion-icon> -->
@@ -134,7 +134,7 @@
                   </ion-thumbnail>
                 </ion-col>
                 <ion-col size="7">
-                  <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/tabs/member'] "
+                  <ion-label (click)="getCurrentLesson(i)" [routerLink]=" [ '/lesson-tabs/member'] "
                     [queryParams]="{isFlash:'1'}">
                     <h3>&nbsp;&nbsp;&nbsp;{{item.name}}</h3>
                     <p>&nbsp;&nbsp;&nbsp;{{item.teacherName}}&nbsp;&nbsp;{{item.className}}</p>

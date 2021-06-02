@@ -1,3 +1,4 @@
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { FormsModule } from '@angular/forms';
 import { HttpServiceService } from './shared/services/http-service.service';
@@ -23,7 +24,7 @@ import { SplashScreen } from '@capacitor/core';
     // InAppBrowser,
     // QQSDK,
     Geolocation,
-    // QRScanner,
+    QRScanner,
     // AppMinimize,
     // BackgroundMode,
     // Keyboard,

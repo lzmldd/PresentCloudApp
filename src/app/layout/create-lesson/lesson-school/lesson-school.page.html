@@ -1,7 +1,13 @@
-<ion-header>
+<ion-header mode="ios">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/create-lesson']">
+      <ion-button *ngIf="pageNum == '0' " color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/create-lesson']">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="pageNum == '5' " color="medium" expand="block" fill="clear" shape="round"[routerLink]="['/user-info']">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="pageNum == '6' " color="medium" expand="block" fill="clear" shape="round"[routerLink]="['/lesson-tabs/detail']">
         <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -14,7 +20,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content mode="ios">
   <div *ngIf="title == '选择学校' ">
     <ion-list lines="full" *ngFor="let school of school[0];let i = index">
       <ion-item (click)="selectSchool(i)" routerLink="/lesson-school"
@@ -28,7 +34,7 @@
     <ion-radio-group>
       <ion-list lines="full" *ngFor="let academy of academy[0];let i = index">
         <ion-item (click)="selectAcademy(i)">
-          <ion-radio slot="end">
+          <ion-radio mode="ios" slot="end">
           </ion-radio>
           {{academy}}
         </ion-item>

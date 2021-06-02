@@ -1,8 +1,8 @@
-<ion-header>
+<ion-header mode="ios">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button expand="block" fill="clear" shape="round" [routerLink]="['/home-tabs/mylesson']">
-        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>返回
+      <ion-button color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/home-tabs/mylesson']">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
     <!-- <ion-buttons slot="start">
@@ -11,13 +11,10 @@
     <ion-title style="text-align:center;margin-right: 30px;">创建班课</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+
+<ion-content mode="ios">
   <ion-item lines="none">
   </ion-item>
-  <!-- <ion-button fill="outline" style="text-align: center;height:80px;width:80px;display: block;
-margin: auto;">
-  <ion-icon class="add_img" name="add-outline"></ion-icon>
-</ion-button> -->
   <ion-row>
     <ion-col></ion-col>
     <ion-col style="text-align: center;">
@@ -59,20 +56,23 @@ margin: auto;">
           placeholder="请选择" [(ngModel)]="lesson.term"></ion-input>
       </ion-item>
 
-      <ion-item-divider>设置学校，院系等其他信息
+      <ion-item-divider>设置学校、院系等其他信息
       </ion-item-divider>
       <ion-item>
         <ion-label slot="start">学校课表班课</ion-label>
-        <ion-checkbox slot="end" name="isSchool" [(ngModel)]="markSchool"></ion-checkbox>
+        <ion-checkbox slot="end" name="isSchoolLesson" [(ngModel)]="lesson.flag"></ion-checkbox>
       </ion-item>
-      <ion-item lines="none">
-        <ion-label slot="start">你所在的学校及院系</ion-label>
+      <ion-item lines="full" routerLink="/lesson-school"[queryParams]="{title:'选择学校',property:'选择学校',pageNum:'0'}">
+        <ion-label>
+          <h2>学校院系</h2>
+          <p>{{selectedName}}</p>
+        </ion-label>
+        <!-- <ion-label slot="start">学校院系</ion-label> -->
         <!-- <ion-note slot="end" class="my_inf">{{selectedName}}</ion-note> -->
       </ion-item>
-      <ion-item lines="none" color="light" routerLink="/lesson-school"
-        [queryParams]="{title:'选择学校',property:'选择学校',pageNum:'0'}">
+      <!-- <ion-item lines="full"  routerLink="/lesson-school"[queryParams]="{title:'选择学校',property:'选择学校',pageNum:'0'}">
         <ion-note slot="start" class="my_inf">{{selectedName}}</ion-note>
-      </ion-item>
+      </ion-item> -->
 
       <ion-item routerLink="/lesson-edit" [queryParams]="{title:'学习要求',property:'学习要求',pageNum:'1'}">
         <ion-label slot="start">学习要求</ion-label>
@@ -86,18 +86,18 @@ margin: auto;">
         <ion-label slot="start">考试安排</ion-label>
         <ion-note slot="end" class="my_inf">{{lesson.examSchedule}}</ion-note>
       </ion-item>
-      <ion-toolbar>
+      <!-- <ion-toolbar>
         <ion-button expand="full" class="btn" type="submit" color="secondary" [disabled]="createForm.invalid"> 创建班课
         </ion-button>
-      </ion-toolbar>
+      </ion-toolbar> -->
 
     </ion-list>
+    
   </form>
 
 </ion-content>
-<!-- <ion-footer>
-  <ion-toolbar>
-    <ion-button class="btn" type="submit" color="secondary" fill="outline"> 创建班课 </ion-button>
-  </ion-toolbar>
+
+<ion-footer style="text-align: center;">
+    <ion-button  class="btn" type="submit" color="secondary" style="width: 95%;" [disabled]="createForm.invalid" (click)="onCreate(createForm)"> 创建班课
+    </ion-button>
 </ion-footer>
-</form> -->

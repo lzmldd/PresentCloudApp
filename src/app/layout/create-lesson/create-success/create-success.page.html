@@ -1,21 +1,25 @@
-<ion-header>
+<ion-header mode="ios">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <div *ngIf="flag=='0'" routerLink="/home-tabs/mylesson" [queryParams]="{flush:value}">
+      <div *ngIf="flag=='0'" routerLink="/home-tabs/mylesson" [queryParams]="{create:'1'}">
         <ion-button color="medium" expand="block" fill="clear" shape="round">
           <!-- <ion-button color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/home-tabs/mylesson']"> -->
           <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
         </ion-button>
       </div>
-      <div *ngIf="flag=='1'">
-        <ion-back-button text="返回"></ion-back-button>
+      <div *ngIf="flag=='1'" routerLink="/lesson-tabs/detail">
+        <ion-button color="medium" expand="block" fill="clear" shape="round">
+          <!-- <ion-button color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/home-tabs/mylesson']"> -->
+          <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+        </ion-button>
       </div>
     </ion-buttons>
-    <ion-title color="medium" style="text-align:center;margin-right: 30px;">创建成功</ion-title>
+    <ion-title *ngIf="flag=='0'" style="text-align:center;margin-right: 30px;">创建成功</ion-title>
+    <ion-title *ngIf="flag=='1'" style="text-align:center;margin-right: 30px;">班课二维码</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content mode="ios">
   <ion-card style="text-align: center;border: solid 1px var(--ion-color-secondary-tint);">
     <ion-card-header>
       <ion-item lines="none" style="text-align: center;">
@@ -28,22 +32,19 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item lines="none" style="text-align: center;">
-        <ion-label style="font-size: 20px;font-weight: bold;">班课号：{{lessonCode}}</ion-label>
+        <ion-label style="font-size: 20px;font-weight: bold;">班课号：{{courseCode}}</ion-label>
       </ion-item>
     </ion-card-content>
   </ion-card>
   <!-- <ion-item lines="none"> -->
-  <ion-row class="row" *ngIf="flag=='0'">
+  <!-- <ion-row *ngIf="flag=='0'" class="row" >
     <ion-button color="secondary" class="btn btn-login" routerLink="/home-tabs/mylesson"
-      [queryParams]="{flush:value}"> 开始班课 </ion-button>
-  </ion-row>
-  <ion-row class="row" *ngIf="flag=='1'">
-    <ion-button color="secondary" class="btn btn-login" routerLink="/tabs/detail"> 返回 </ion-button>
-  </ion-row>
-  <!-- </ion-item> -->
+      [queryParams]="{create:'1'}"> 开始班课 </ion-button>
+  </ion-row> -->
+  
 </ion-content>
-<!-- <ion-footer style="text-align: center;"></ion-footer>
-  <ion-button color="secondary" style="width: 90%;" [[routerLink]="['/home-tabs/mylesson']">
-      返回班课列表
+<ion-footer *ngIf="flag=='0'" style="text-align: center;">
+  <ion-button color="secondary" style="width: 95%;" [routerLink]="['/home-tabs/mylesson']">
+      开始班课
   </ion-button>
-</ion-footer> -->
+</ion-footer>

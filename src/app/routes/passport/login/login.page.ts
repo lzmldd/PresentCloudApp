@@ -46,15 +46,8 @@ export class LoginPage implements OnInit {
       };
       var api = '/loginCaptcha';//后台接口
       this.httpService.get(api, params).then(async (response: any) => {
-        // console.log(response.data);
-        // this.result = response.data;
+        
         if (response.data.message == "该手机号未注册，请先注册") {
-          // const toast = await this.toastCtrl.create({
-          //   message: '该手机号未注册，请先注册', // 弹出输入不能为空的文本框
-          //   duration: 2000
-          // });
-          // toast.present();
-          
           let alert = await this.alertController.create({
             header: '提示',
             message: '该手机号未注册，请先注册',
@@ -153,7 +146,7 @@ export class LoginPage implements OnInit {
         };
         //将账号密码传给后台，得到返回值，若匹配无误，则进入班课列表界面
         var api = '/mobile/loginByPassword';//后台接口
-
+        await loading.dismiss();
         this.httpService.post(api, params).then(async (response: any) => {
           // console.log(response.data);
           await loading.dismiss();
@@ -188,7 +181,7 @@ export class LoginPage implements OnInit {
       }
     }
   }
-
+  
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,

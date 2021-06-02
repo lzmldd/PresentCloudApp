@@ -80,6 +80,43 @@ const routes: Routes = [
   },
   
   
+  {
+    path: 'join-by-code',
+    loadChildren: () => import('./layout/join-lesson/join-by-code/join-by-code.module').then( m => m.JoinByCodePageModule)
+  },
+  {
+    path: 'join-by-qrcode',
+    loadChildren: () => import('./layout/join-lesson/join-by-qrcode/join-by-qrcode.module').then( m => m.JoinByQrcodePageModule)
+  },
+  {
+    path: 'confirm-join',
+    loadChildren: () => import('./layout/join-lesson/confirm-join/confirm-join.module').then(m => m.ConfirmJoinPageModule)
+  },
+  {
+    path: 'lesson-tabs',
+    loadChildren: () => import('./layout/lesson/lesson-tabs/lesson-tabs.module').then( m => m.LessonTabsPageModule)
+  },
+  {
+    path: 'member',
+    loadChildren: () => import('./layout/lesson/member/member.module').then( m => m.MemberPageModule)
+  },
+  {
+    path: 'detail',
+    loadChildren: () => import('./layout/lesson/detail/detail.module').then( m => m.DetailPageModule)
+  },
+  {
+    path: 'lesson-detail-edit',
+    loadChildren: () => import('./layout/lesson/lesson-detail-edit/lesson-detail-edit.module').then( m => m.LessonDetailEditPageModule)
+  },
+  {
+    path: 'lesson-info-edit',
+    loadChildren: () => import('./layout/lesson/lesson-info-edit/lesson-info-edit.module').then( m => m.LessonInfoEditPageModule)
+  },
+  {
+    path: 'student-checkin-result',
+    loadChildren: () => import('./layout/checkin/student-checkin-result/student-checkin-result.module').then( m => m.StudentCheckinResultPageModule)
+  },
+  
   
 ];
 

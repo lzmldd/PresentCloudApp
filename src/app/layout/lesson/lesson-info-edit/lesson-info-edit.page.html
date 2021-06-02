@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/lesson-tabs/detail']">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="text-align:center;margin-right: 30px;">编辑班课基本信息</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+  </ion-item>
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col style="text-align: center;">
+      <ion-thumbnail class="cover">
+        <img src={{lesson.picture}}>
+        <!-- <ion-icon class="icon" color="light" name="cloud-circle-outline"></ion-icon> -->
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+
+  <form (ngSubmit)="onUpdate(updateForm)" #updateForm="ngForm" novalidate>
+    <ion-list lines="full" style="margin-top:5px">
+      <ion-item style="text-align: center;">
+        <ion-label>班课封面</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-text color="danger">*</ion-text> 班级
+        </ion-label>
+        <ion-input style="text-align: right;" slot="end" type="text" name="class" class="my_inf" required placeholder="未设置"
+          [(ngModel)]="lesson.className"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>
+          <ion-text color="danger">*</ion-text> 课程
+        </ion-label>
+        <ion-input style="text-align: right;" slot="end" type="text" name="name" class="my_inf" required placeholder="未设置"
+          [(ngModel)]="lesson.name"></ion-input>
+        <!-- <ion-note class="my_inf" slot="end">{{lesson.name}}&nbsp;&nbsp;</ion-note> -->
+      </ion-item>
+    
+      <ion-item (click)="termPicker(1,termOptions,term)">
+        <ion-label>
+          <ion-text color="danger">*</ion-text> 学期
+        </ion-label>
+        <!-- <ion-note  class="my_inf" slot="end">{{lesson.term}}&nbsp;&nbsp;</ion-note> -->
+        <ion-input style="text-align: right;" slot="end" type="text" name="term" class="my_inf" required placeholder="请选择"
+          [(ngModel)]="lesson.term"></ion-input>
+      </ion-item>
+      
+      <!-- <ion-item-divider></ion-item-divider> -->
+      <ion-item-divider>类型</ion-item-divider>
+
+      <ion-item>
+        <ion-label slot="start">学校课表班课</ion-label>
+        <ion-checkbox slot="end" name="isSchoolLesson" [(ngModel)]="lesson.flag"></ion-checkbox>
+      </ion-item>
+      <!-- <ion-toolbar>
+        <ion-button class="btn" type="submit" color="secondary" fill="outline" [disabled]="updateForm.invalid"> 保存
+        </ion-button>
+      </ion-toolbar> -->
+
+    </ion-list>
+  </form>
+
+</ion-content>
+<ion-footer style="text-align: center;">
+  <ion-item class="save-row" lines="none">
+    <ion-button class="save-btn" type="submit" color="secondary" fill="clear"  [disabled]="updateForm.invalid" (click)="onUpdate(updateForm)">保存</ion-button>
+  </ion-item>
+</ion-footer>

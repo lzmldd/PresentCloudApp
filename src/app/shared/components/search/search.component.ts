@@ -66,7 +66,7 @@ export class SearchComponent implements OnInit {
   getCurrentLesson(index) {
     this.dissmissSearch();
     console.log(this.lessonList[index])
-    localStorage.setItem("select_lessonName", this.lessonList[index].name);
+    localStorage.setItem("select_courseName", this.lessonList[index].name);
     localStorage.setItem("select_courseCode", this.lessonList[index].courseCode);
     if (this.isTeacher == "1") {
       localStorage.setItem("isTeacher", '1');
@@ -78,7 +78,7 @@ export class SearchComponent implements OnInit {
 
   gotoCheckin(index) {
     this.dissmissSearch();
-    localStorage.setItem("select_lessonName", this.lessonList[index].name);
+    localStorage.setItem("select_courseName", this.lessonList[index].name);
     localStorage.setItem("select_courseCode", this.lessonList[index].courseCode);
     this.router.navigateByUrl('/choose');
   }

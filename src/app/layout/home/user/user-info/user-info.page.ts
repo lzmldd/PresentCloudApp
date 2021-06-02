@@ -27,7 +27,7 @@ export class UserInfoPage implements OnInit {
     departmentId: null,// user的学院id
     // 先后台提供schoolId和departmentId即可更新用户信息的school和department
   };
-  public selectedName = "请选择"// 选择的学校名
+  public selectedName = "请选择"// 选择的学校院系名
   public selectedId = ""
   public isTeacher;
 
@@ -47,19 +47,18 @@ export class UserInfoPage implements OnInit {
         this.selectedName = queryParams.name
         this.selectedId = queryParams.id
         localStorage.setItem("recent_selectedName", this.selectedName)
-
       }
     });
 
   }
 
   ngOnInit() {
-    this.selectedName == "请选择"
-    this.getInf()
-  }
-  ionViewWillEnter() {
     // this.selectedName == "请选择"
     // this.getInf()
+  }
+  ionViewWillEnter() {
+    this.selectedName == "请选择"
+    this.getInf()
   }
   ionViewWillLeave() {
     // this.selectedName == "请选择"
@@ -72,6 +71,7 @@ export class UserInfoPage implements OnInit {
       message: 'Please wait...',
     });
     await loading.present();
+    // await loading.dismiss();
     var api = '/common/user/info';//后台接口
     this.httpService.getAll(api).then(async (response: any) => {
       if (response.status == 200) {

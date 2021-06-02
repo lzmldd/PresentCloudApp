@@ -34,8 +34,14 @@
         <h2>{{item.name}}</h2>
         <p>{{item.number}}</p>
       </ion-label>
-      <ion-note  slot="end" color="danger" style="font-size: 15px;margin-top: 4px;" (click)="presentActionSheet(item)">
+      <ion-note  *ngIf="item.status==0" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;" (click)="presentActionSheet(item)">
         缺勤</ion-note>
+      <ion-note *ngIf="item.status==2" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;"(click)="presentActionSheet(item)">
+        请假</ion-note>
+      <ion-note *ngIf="item.status==3" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;"(click)="presentActionSheet(item)">
+        迟到</ion-note>
+      <ion-note *ngIf="item.status==4" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;"(click)="presentActionSheet(item)">
+        早退</ion-note>
       <ion-checkbox slot="end" color="primary" (click)="checkAbsence(item)" *ngIf="show==true" style="margin-left:10px"
         [(ngModel)]="item.checked" [id]="item.id"></ion-checkbox>
     </ion-item>
@@ -59,7 +65,7 @@
         <h2>{{item.name}}</h2>
         <p>{{item.number}}</p>
       </ion-label>
-      <ion-note slot="end"  style="font-size: 10px;margin-top: 4px;"(click)="presentActionSheet(item)">
+      <ion-note *ngIf="item.signTime!=null" slot="end"  style="font-size: 10px;margin-top: 4px;"(click)="presentActionSheet(item)">
       {{item.signTime.substring(0,16)}}</ion-note>
       <ion-checkbox slot="end" color="primary" (click)="checkAttendance(item)" *ngIf="show==true"
         style="margin-left:10px" [(ngModel)]="item.checked" [id]="item.id"></ion-checkbox>

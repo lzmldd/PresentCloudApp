@@ -1,17 +1,17 @@
-<ion-header>
+<ion-header mode="ios">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button expand="block" fill="clear" shape="round" [routerLink]="['/home-tabs/my']">
-        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>返回
+      <ion-button color="medium" expand="block" fill="clear" shape="round" [routerLink]="['/home-tabs/my']">
+        <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title style="text-align:center;">用户信息</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content mode="ios">
 
-  <ion-card mode="ios">
+  <ion-card mode="md">
     <ion-grid>
       <ion-row>
         <ion-col size="2.5">
@@ -36,13 +36,13 @@
   </ion-card>
 
 
-  <ion-list lines="full">
-    <ion-item slot="end">
+  <ion-card mode="md" lines="full">
+    <ion-item>
       <ion-label>姓名</ion-label>
       <ion-input style="text-align: right;" class="my_inf" slot="end" type="text" placeholder="未设置"
         [(ngModel)]="user.name"></ion-input>
     </ion-item>
-    <ion-item slot="end">
+    <ion-item>
       <ion-label>昵称</ion-label>
       <ion-input style="text-align: right;" class="my_inf" slot="end" type="text" placeholder="未设置"
         [(ngModel)]="user.nickname"></ion-input>
@@ -60,53 +60,46 @@
       </ion-item> -->
     <ion-item>
       <ion-label>出生年月</ion-label>
-      <ion-datetime slot="end" value="1990-02-19" placeholder="未设置" [(ngModel)]="user.birthday"
+      <ion-datetime mode="ios" slot="end" value="1990-02-19" placeholder="未设置" [(ngModel)]="user.birthday"
         displayFormat="YYYY-MM-DD" cancelText="取消" doneText="确认"></ion-datetime>
     </ion-item>
     <!-- <ion-item color="light">
         <ion-note slot="start" class="my_inf">选择性别</ion-note>
     </ion-item > -->
     <ion-radio-group [(ngModel)]="user.sexCode">
-      <ion-item>
+      <ion-item  lines="full">
         <ion-label>性别</ion-label>
-        <ion-radio mode="md" color="success" value="27" style="margin-left: 100px;"></ion-radio>
+        <ion-radio mode="md" color="success" value="27" style="margin-left: 130px;"></ion-radio>
         <ion-label style="margin-left: 15px;">男</ion-label>
         <ion-radio mode="md" color="tertiary" value="28"></ion-radio>
         <ion-label style="margin-left: 15px;">女</ion-label>
         <!-- <ion-input class="my_inf" slot="end" type="text" placeholder="未设置" [(ngModel)]="user.sex"></ion-input> -->
       </ion-item>
     </ion-radio-group>
-    <ion-item lines="none">
-      <ion-label slot="start">你所在的学校及院系</ion-label>
+    <ion-item  lines="none" detail routerLink="/lesson-school" [queryParams]="{title:'选择学校',property:'选择学校',pageNum:'5'}">
+      <ion-label>
+        <h2>你所在的学校及院系</h2>
+        <p>{{selectedName}}</p>
+      </ion-label>
+      <!-- <ion-label>你所在的学校及院系</ion-label> -->
       <!-- <ion-note slot="end" color="ion-color-warning-contrast" class="my_inf">{{selectedName}}</ion-note> -->
     </ion-item>
-    <ion-item lines="none" color="light" routerLink="/lesson-school"
-      [queryParams]="{title:'选择学校',property:'选择学校',pageNum:'5'}">
+    <!-- <ion-item lines="none" detail routerLink="/lesson-school" [queryParams]="{title:'选择学校',property:'选择学校',pageNum:'5'}">
       <ion-note slot="start" class="my_inf">{{selectedName}}</ion-note>
-    </ion-item>
-    <ion-item lines="none">
-    </ion-item>
-  </ion-list>
-  <!-- <div style="text-align: center;">
-      <ion-button color="secondary" type="submit" class="btn" style="width:90%" (click)="updateInf()"> 保存
-      </ion-button>
-  </div> -->
-  <!-- </form> -->
+    </ion-item> -->
+    
+  </ion-card>
+ 
   <ion-list lines="none">
-    <!-- <ion-item class="save-row" lines="none"> -->
-    <!-- <ion-button color="secondary" class="save-btn btn" style="width:90%" (click)="updateInf()">注销</ion-button> -->
-    <!-- </ion-item> -->
     <ion-item class="save-row" lines="none">
-      <ion-button class="save-btn btn" style="width:90%" fill="clear" (click)="updateInf()">保存</ion-button>
+      <ion-button class="save-btn"  fill="clear" (click)="updateInf()">保存</ion-button>
     </ion-item>
-    <!-- <ion-item-divider lines="none">
-      </ion-item-divider> -->
-
-    <!-- <ion-item class="logout-row" lines="none">
-          <ion-button class="logout-btn btn" style="width:90%" fill="clear" (click)="onLogout()">注销</ion-button>
-      </ion-item> -->
-
-    <!-- <ion-item-divider lines="none">
-      </ion-item-divider> -->
+  
   </ion-list>
 </ion-content>
+
+<!-- <ion-footer style="text-align: center;">
+  <ion-button color="secondary" style="width: 95%;" [[routerLink]="['/home-tabs/mylesson']">
+    保存
+  </ion-button>
+</ion-footer> -->

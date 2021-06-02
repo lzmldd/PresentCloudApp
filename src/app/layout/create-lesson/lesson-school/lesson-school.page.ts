@@ -97,7 +97,15 @@ export class LessonSchoolPage implements OnInit {
       this.name += this.selectedSchoolName + " " + this.selectedAcademyName
       this.id += this.selectedSchoolId + '/' + this.selectedAcademyId
       console.log(this.name, this.id)
-      this.router.navigate(['user-inf'], { queryParams: { name: this.name, id: this.id, pageNum: this.pageNum } });
+      this.router.navigate(['user-info'], { queryParams: { name: this.name, id: this.id, pageNum: this.pageNum } });
+    }
+    else if (this.pageNum == '6') {
+      this.name = ""
+      this.id = ""
+      this.name += this.selectedSchoolName + " " + this.selectedAcademyName
+      this.id += this.selectedSchoolId + '/' + this.selectedAcademyId
+      console.log(this.name, this.id)
+      this.router.navigate(['detail'], { queryParams: { name: this.name, id: this.id, pageNum: this.pageNum } });
     }
   }
 

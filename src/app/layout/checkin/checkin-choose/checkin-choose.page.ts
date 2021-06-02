@@ -35,19 +35,12 @@ export class CheckinChoosePage implements OnInit {
   }
   
   async checkExplain() {
-    // console.log("签到方式说明");
     //弹出说明模态框
     const modal = await this.modalController.create({
       component: CheckinComponent,
 
     });
     await modal.present();
-
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      if (queryParams.flush == '1') {
-        this.getCheckHistory();
-      }
-    });
   }
   
   gotoCheckin(checkinFlage) {// checkinFlage 0代表一键签到，1代表限时签到
@@ -149,8 +142,7 @@ export class CheckinChoosePage implements OnInit {
         {
           text: '签到时长',
           cssClass: 'color:secondary'
-        }
-        ,
+        },
         {
           text: '立即开始',
           handler: (value) => {
@@ -190,53 +182,37 @@ export class CheckinChoosePage implements OnInit {
     }
     return options;
   }
-  gotoGesture() {
-    this.router.navigateByUrl('gesture');
-  }
-
-  gotoManual() {
-    this.router.navigate(['/checkin-result'], {
-      queryParams: {
-        type: 1
-      }
-    })
-    // this.router.navigateByUrl('checkin-result');
-  }
 
   ngOnInit() {
-    this.getCheckHistory();
   }
-  // ionViewWillEnter() {
-  //   this.getCheckHistory()
-  // }
-  ionViewDidEnter() {
-    // this.getCheckHistory()
+
+  ionViewWillEnter() {
+    this.getCheckHistory()
   }
   
-
   async getCheckHistory() {
-
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    await loading.present();
     var cid = localStorage.getItem("course_id")
     var api = '/sign/course/history/' + cid
     this.httpService.getAll(api).then(async (response: any) => {
-      // console.log(response.data)
-      this.record = response.data.reverse();
+      if (response.data.message == "权限不足，请联系管理员！") {
+        // this.presentToast(response.data.message)
+        this.router.navigateByUrl('home-tabs/mylesson');
+      }
+      else
+      {
+        this.record = response.data
+      }
+      await loading.dismiss();
     })
   }
-  getMyDay(date) {
-    var week;
-    if (date == "星期日") week = "周日";
-    if (date == "星期一") week = "周一";
-    if (date == "星期二") week = "周二";
-    if (date == "星期三") week = "周三";
-    if (date == "星期四") week = "周四";
-    if (date == "星期五") week = "周五";
-    if (date == "星期六") week = "周六";
-    return week;
-  }
+  
   checkHistoryDetail(item) {
     this.router.navigate(['checkin-result'], {
-      queryParams: { flag: 1, checkinId: item.signId, checkinType: this.checkinType, }
+      queryParams: { checkinId: item.signId}
     });
   }
 

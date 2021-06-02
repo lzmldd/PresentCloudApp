@@ -96,8 +96,6 @@ export class CheckinPage implements OnInit {
     });
     await loading.present();//加载
     var local = this.latitude + "," + this.longitude
-    local ='26.05,119.18'
-    console.log(local)
     if(this.checkinType==0)// 0代表一键签到，1代表限时签到
     {
       var api = '/sign/nolimit?id=' + this.checkinId + '&local=' + local;
@@ -115,7 +113,6 @@ export class CheckinPage implements OnInit {
         this.presentToast(response.data.message+",请勿重复签到")
         this.router.navigateByUrl('home-tabs/mylesson');
       } else {
-        // this.getHistory();
         this.presentToast(response.data.message)
       }
     })
@@ -131,7 +128,6 @@ export class CheckinPage implements OnInit {
       await loading.dismiss();
       console.log(this.latitude, this.longitude)
       // this.checkin()
-      //获得系统参数
     }).catch((error) => {
       console.log('Error getting location', error);
     });
@@ -156,9 +152,6 @@ export class CheckinPage implements OnInit {
           text: '取消',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: (blah) => {
-            // console.log('Confirm Cancel: blah');
-          }
         }, {
           text: '确定',
           handler: () => {
@@ -168,11 +161,8 @@ export class CheckinPage implements OnInit {
               type: 0
             }
             this.stopRequest();
-            console.log(params);
             this.httpService.get(api, params).then(async (response: any) => {
-              // console.log(response.data)
-              // this.stopRequest();
-              // clearInterval(this.interval)
+
               this.router.navigateByUrl('checkin-choose', { replaceUrl: true });
             })
 
@@ -192,9 +182,6 @@ export class CheckinPage implements OnInit {
           text: '取消',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: (blah) => {
-            // console.log('Confirm Cancel: blah');
-          }
         }, {
           text: '确定',
           handler: () => {
@@ -205,9 +192,7 @@ export class CheckinPage implements OnInit {
             }
             this.stopRequest()
             this.httpService.get(api, params).then(async (response: any) => {
-              
-              this.router.navigate(['checkin-result'], {
-                queryParams: {flag: 1, checkinId: this.checkinId, checkinType: this.checkinType,}});
+              this.router.navigate(['checkin-result'], { queryParams: { checkinId: this.checkinId } });
 
             })
 
@@ -261,9 +246,7 @@ export class CheckinPage implements OnInit {
           this.stopRequest()
           this.presentToast("满勤，签到完成")
           this.httpService.get(api, params).then(async (response: any) => {
-      
-            this.router.navigate(['checkin-result'], {
-              queryParams: { flag: 1, checkinId: this.checkinId, checkinType: this.checkinType, } });
+            this.router.navigate(['checkin-result'], { queryParams: { checkinId: this.checkinId } });
        
           })
 
@@ -303,11 +286,12 @@ export class CheckinPage implements OnInit {
             handler: () => {
               if (this.flag == 1)// 1代表教师发起签到
               {
-                this.router.navigate(['checkin-result'], {
-                  queryParams: { flag: 1, checkinId: this.checkinId, checkinType: this.checkinType, } });
+                this.router.navigate(['checkin-result'], { queryParams: { checkinId: this.checkinId } });
               }
-              else
+              else// 学生进行签到
+              {
                 this.router.navigateByUrl('/home-tabs/mylesson');
+              }
             }
           }
         ]

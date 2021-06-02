@@ -18,16 +18,7 @@ const routes: Routes = [
           }
         ]
       },
-      // {
-      //   path: 'user-info',
-      //   children: [
-      //     {
-      //       path: '',
-      //       loadChildren: () =>
-      //         import('../user/user-info/user-info.module').then(m => m.UserInfoPageModule)
-      //     }
-      //   ]
-      // },
+      
       {
         path: 'my',
         children: [
