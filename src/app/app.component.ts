@@ -79,7 +79,7 @@ export class AppComponent {
           this.backButtonPressed = true;
           setTimeout(() => this.backButtonPressed = false, 2000);//延时器改变退出判断属性
         }
-      } else if (this.router.url.split('?')[0] === '/checkin') {
+      } else if (this.router.url.split('?')[0] === '/checkin' && localStorage.getItem('isTeacher')=='1') {
         //确认是否要结束签到
         const alert = await this.alertController.create({
           header: '提示',

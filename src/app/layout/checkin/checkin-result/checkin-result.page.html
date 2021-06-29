@@ -65,8 +65,10 @@
         <h2>{{item.name}}</h2>
         <p>{{item.number}}</p>
       </ion-label>
-      <ion-note *ngIf="item.signTime!=null" slot="end"  style="font-size: 10px;margin-top: 4px;"(click)="presentActionSheet(item)">
-      {{item.signTime.substring(0,16)}}</ion-note>
+      <ion-note *ngIf="item.distance!=null" slot="end"  style="font-size: 10px;margin-top: 4px;"(click)="presentActionSheet(item)">
+      距你{{item.distance}}m</ion-note>
+      <ion-note *ngIf="item.distance==null" slot="end" style="font-size: 10px;margin-top: 4px;"(click)="presentActionSheet(item)">
+        对方未开启位置信息</ion-note>
       <ion-checkbox slot="end" color="primary" (click)="checkAttendance(item)" *ngIf="show==true"
         style="margin-left:10px" [(ngModel)]="item.checked" [id]="item.id"></ion-checkbox>
     </ion-item>
