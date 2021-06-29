@@ -87,6 +87,16 @@ export class MylessonPage implements OnInit {
     }
   }
 
+  ionViewWillEnter() {
+    if (localStorage.getItem("role_id") == '2') {//教师
+      this.flag = '0';
+      this.getCreateLesson();
+    } else {
+      this.getMyLesson();
+    }
+
+  }
+
   doRefresh(event) {
     if (this.tab == 'tab1') {
       this.forTeacher();
@@ -149,7 +159,8 @@ export class MylessonPage implements OnInit {
       const alert = await this.alertController.create({
         header: '警告',
         message: '请求失败！',
-        buttons: ['确认']
+        buttons: ['确认'],
+        mode: 'ios'
       });
       await alert.present();
     })
@@ -193,7 +204,8 @@ export class MylessonPage implements OnInit {
       const alert = await this.alertController.create({
         header: '警告',
         message: '请求失败！',
-        buttons: ['确认']
+        buttons: ['确认'],
+        mode: 'ios'
       });
       await alert.present();
     })
@@ -257,7 +269,8 @@ export class MylessonPage implements OnInit {
         } else {
           const toast = await this.toastController.create({
             message: '老师还没开始签到或签到已结束', // 弹出输入不能为空的文本框
-            duration: 2000
+            duration: 2000,
+            mode: 'ios'
           });
           toast.present();
         }
@@ -314,6 +327,10 @@ export class MylessonPage implements OnInit {
                 startTime: this.startTime, endTime: this.endTime
               }
             });
+          } 
+          else if (response.data.message == "班级内暂无学生") {
+            this.presentToast('先邀请你的学生加入班课再签到吧')
+          
           }
         });
 
@@ -341,7 +358,8 @@ export class MylessonPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1000
+      duration: 1000,
+      mode: 'ios'
     });
     toast.present();
   }

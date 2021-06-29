@@ -79,7 +79,8 @@ export class LessonSchoolPage implements OnInit {
     if (this.selectedAcademyId == -1) {
       const toast = await this.toastCtrl.create({
         message: '你还没有选择院系', // 弹出输入不能为空的文本框
-        duration: 2000
+        duration: 2000,
+        mode:'ios'
       });
       toast.present();
     }
@@ -105,7 +106,7 @@ export class LessonSchoolPage implements OnInit {
       this.name += this.selectedSchoolName + " " + this.selectedAcademyName
       this.id += this.selectedSchoolId + '/' + this.selectedAcademyId
       console.log(this.name, this.id)
-      this.router.navigate(['detail'], { queryParams: { name: this.name, id: this.id, pageNum: this.pageNum } });
+      this.router.navigate(['/lesson-tabs/detail'], { queryParams: { name: this.name, id: this.id, pageNum: this.pageNum } });
     }
   }
 

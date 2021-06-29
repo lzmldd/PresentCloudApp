@@ -2,6 +2,7 @@ import { HttpServiceService } from './../../../shared/services/http-service.serv
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
+import { SearchMemberComponent } from 'src/app/shared/components/search-member/search-member.component';
 
 @Component({
   selector: 'app-member',
@@ -79,6 +80,7 @@ export class MemberPage implements OnInit {
       const alert = await this.alertController.create({
         header: '警告',
         message: '请求失败！',
+        mode: 'ios',
         buttons: ['确认']
       });
       await alert.present();
@@ -125,7 +127,8 @@ export class MemberPage implements OnInit {
       const alert = await this.alertController.create({
         header: '警告',
         message: '请求失败！',
-        buttons: ['确认']
+        buttons: ['确认'],
+        mode: 'ios'
       });
       await alert.present();
     })
@@ -134,21 +137,22 @@ export class MemberPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1000
+      duration: 1000,
+      mode: 'ios'
     });
     toast.present();
   }
 
-  // async searchMember() {
-  //   //弹出搜索模态框
-  //   const modal = await this.modalController.create({
-  //     component: SearchMemberComponent,
-  //     componentProps: {
-  //       type: '按照姓名、学号检索'
-  //     }
-  //   });
-  //   await modal.present();
-  // }
+  async searchMember() {
+    //弹出搜索模态框
+    const modal = await this.modalController.create({
+      component: SearchMemberComponent,
+      componentProps: {
+        type: '按照姓名、学号检索'
+      }
+    });
+    await modal.present();
+  }
 
   gotoCheck() {
     this.router.navigate(['/student-checkin-result'], {

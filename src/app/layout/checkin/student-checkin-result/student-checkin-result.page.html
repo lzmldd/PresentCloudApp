@@ -37,8 +37,12 @@
   </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let item of checkHistory" lines="full">
-      <ion-label>
+      <ion-label *ngIf="item.type=='0'">
         <h4>{{item.startTime.substring(0,10)}} {{item.dayOfWeek}} 一键签到</h4>
+        <p>{{item.startTime.substring(11,16)}} </p>
+      </ion-label>
+      <ion-label *ngIf="item.type=='1'">
+        <h4>{{item.startTime.substring(0,10)}} {{item.dayOfWeek}} 限时签到</h4>
         <p>{{item.startTime.substring(11,16)}} </p>
       </ion-label>
       <ion-note *ngIf="item.status=='0'" slot="end" color="danger" style="font-size: 15px;margin-top: 4px;" >

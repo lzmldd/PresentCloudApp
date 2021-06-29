@@ -134,7 +134,8 @@ export class UserInfoPage implements OnInit {
         // let alert = await this.alertController.create({
         //   header: '提示',
         //   message: '修改成功！',
-        //   buttons: ['确认']
+        //   buttons: ['确认'],
+        //   mode: 'ios'
         // });
         // alert.present();
         const toast = await this.toast.create({

@@ -52,8 +52,8 @@
           <ion-text color="danger">*</ion-text> 学期
         </ion-label>
         <!-- <ion-note  class="my_inf" slot="end">{{lesson.term}}&nbsp;&nbsp;</ion-note> -->
-        <ion-input style="text-align: right;" slot="end" type="text" name="term" class="my_inf" required
-          placeholder="请选择" [(ngModel)]="lesson.term"></ion-input>
+        <ion-input style="text-align: right;" slot="end" type="text" name="term" class="my_inf" required 
+          [(ngModel)]="lesson.term"></ion-input>
       </ion-item>
 
       <ion-item-divider>设置学校、院系等其他信息
@@ -97,7 +97,7 @@
 
 </ion-content>
 
-<ion-footer style="text-align: center;">
+<ion-footer style="text-align: center;" mode="ios">
     <ion-button  class="btn" type="submit" color="secondary" style="width: 95%;" [disabled]="createForm.invalid" (click)="onCreate(createForm)"> 创建班课
     </ion-button>
 </ion-footer>

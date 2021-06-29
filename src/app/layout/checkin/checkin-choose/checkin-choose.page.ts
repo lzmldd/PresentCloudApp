@@ -92,6 +92,10 @@ export class CheckinChoosePage implements OnInit {
               }
             });
           }
+          else if (response.data.message == "班级内暂无学生") {
+            this.presentToast('先邀请你的学生加入班课再签到吧')
+
+          }
         });
 
       }
@@ -117,7 +121,8 @@ export class CheckinChoosePage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1000
+      duration: 1000,
+      mode: 'ios'
     });
     toast.present();
   }

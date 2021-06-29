@@ -79,7 +79,8 @@ export class LessonInfoEditPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1000
+      duration: 1000,
+      mode: 'ios'
     });
     toast.present();
   }

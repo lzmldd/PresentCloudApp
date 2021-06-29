@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header mode="ios">
   <div style="width: 100%;height: 20px;opacity: 0;"></div>
   <ion-toolbar>
     <ion-searchbar mode="ios" class="searchbar" show-cancel-button="always" cancel-button-text="取消" debounce=1000
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content mode="ios">
   <div *ngIf="flag=='1'">
     <div *ngIf="isTeacher=='1'">
       <ion-list lines="full" *ngFor="let item of lessonList;let i = index">

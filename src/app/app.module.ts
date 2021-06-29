@@ -11,7 +11,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import { SplashScreen } from '@capacitor/core';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +22,6 @@ import { SplashScreen } from '@capacitor/core';
     // SplashScreen,
     HttpServiceService,
     // InAppBrowser,
-    // QQSDK,
     Geolocation,
     QRScanner,
     // AppMinimize,

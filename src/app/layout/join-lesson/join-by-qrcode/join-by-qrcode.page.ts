@@ -1,7 +1,7 @@
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { HttpServiceService } from './../../../shared/services/http-service.service';
 import { Router } from '@angular/router';
-import { NavController, Platform, AlertController } from '@ionic/angular';
+import { NavController, Platform, AlertController, ToastController } from '@ionic/angular';
 import { Component, ElementRef, OnInit } from '@angular/core';
 
 @Component({
@@ -11,19 +11,28 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 })
 export class JoinByQrcodePage implements OnInit {
 
+  public lesson = {
+    picture: "",
+    className: "",
+    name: "",
+    teacherName: "",
+    schoolLesson: ""
+  }
+
   lightIcon: string;
   light: boolean;
   frontCamera: boolean;
   scannerClass: boolean;
   constructor(
-    private platform: Platform,
-    private scanner: QRScanner,
-    private router: NavController,
-    private element: ElementRef,
-    private route: Router,
+    public platform: Platform,
+    public scanner: QRScanner,
+    public element: ElementRef,
+    public navcontroller: NavController,
+    public router: Router,
     public httpService: HttpServiceService,
     // public http: HttpClient,
-    private alertController: AlertController
+    public alertController: AlertController,
+    public toastController: ToastController,
   ) {
     this.lightIcon = 'flash-off';
     // this.modal.showLoading();
@@ -44,7 +53,7 @@ export class JoinByQrcodePage implements OnInit {
   }
 
   closeModal() {
-    this.router.back();
+    this.navcontroller.back();
     this.destroyScanner();
   }
 
@@ -81,30 +90,41 @@ export class JoinByQrcodePage implements OnInit {
           // start scanning
           let scanSub = this.scanner.scan().subscribe((text: string) => {
             //获取扫描内容，请求后台加入班课
-            var params = {
-              code: text
-            }
-            var api = '/course/mobile/student';//后台接口
-            this.httpService.post(api, params).then(async (response: any) => {
-              if (response.status == 200) {
-                if (response.data.respCode == "班课号不存在！") {
-                  const alert = await this.alertController.create({
-                    header: '警告',
-                    message: '班课号不存在！',
-                    buttons: ['确认']
-                  });
-                  await alert.present();
-                } else {
-                  //获得班课信息
-                  localStorage.setItem("joinCode", text);
-                  localStorage.setItem("joinInf", JSON.stringify(response.data));
-                  this.route.navigateByUrl("/confirm-join");
-                }
-              }
-            })
+            
+            localStorage.setItem("joinCode", text);
+            this.confirmJoin()
+
+            // var params = {
+            //   code: text
+            // }
+            // var api = '/course/';//后台接口
+            // this.httpService.get(api, params).then(async (response: any) => {
+            //   if (response.data.code == 200) {
+            //     //获得班课信息
+            //     this.lesson.className = response.data.obj.className
+            //     this.lesson.name = response.data.obj.name
+            //     this.lesson.teacherName = response.data.obj.creater.name
+            //     this.lesson.picture = response.data.obj.picture
+            //     if (response.data.obj.flag == 1)
+            //       this.lesson.schoolLesson = "学校课表班课"
+            //     else
+            //       this.lesson.schoolLesson = "其他班课"
+            //     console.log(this.lesson)
+            //     localStorage.setItem("joinCode", text);
+            //     localStorage.setItem("joinInf", JSON.stringify(this.lesson));
+            //     this.router.navigateByUrl("/confirm-join");
+            //   }
+            //   else if (response.data.message == "没有此班课") {
+            //     this.presentToast('班课不存在')
+            //   }
+            //   else if (response.data.message == "该班课不允许加入，请联系教师") {
+            //     this.presentToast('该班课不允许加入，请联系教师')
+            //   }
+            // })
+          
             this.scanner.hide(); // hide camera preview
             scanSub.unsubscribe(); // stop scanning
-            this.router.back();
+            this.navcontroller.back();
           });
 
         } else if (status.denied) {
@@ -119,12 +139,67 @@ export class JoinByQrcodePage implements OnInit {
     });
   }
 
+  async confirmJoin() {
+    var api = '/course/mobile/student?code=' + localStorage.getItem("joinCode");//后台接口
+    this.httpService.postAll(api).then(async (response: any) => {
+      this.presentToast(response.data.message)
+      if (response.data.message == "该班课不允许加入，请联系教师") {
+        this.presentToast('该班课不允许加入，请联系教师')
+      }
+      if (response.status == 200) {
+        if (response.data.message == "该班课不存在") {    // 该班课不存在
+          this.presentToast('班课不存在')
+        }
+        else if (response.data.message == "该班课不允许加入，请联系教师") {
+          this.presentToast('该班课不允许加入，请联系教师')
+        }
+        else if (response.data.message == "您已加入该班课") {
+          this.presentToast('您已加入本班课，请勿重复加入！')
+          this.router.navigate(['/home-tabs/mylesson'])
+        } else if (response.data.message == "该班课已结束") {
+          this.presentToast('该班课已结束')
+          // this.router.navigate(['/home-tabs/mylesson'])
+        }
+        else if (response.data.message == "加入班课成功") {
+          const alert = await this.alertController.create({
+            message: '加入班课成功！',
+            mode: 'ios',
+            buttons: [
+              {
+                text: '确认',
+                cssClass: 'secondary',
+                handler: (blah) => {
+                  this.router.navigate(['/home-tabs/mylesson'], {
+                    queryParams: {
+                      join: '1'
+                    }
+                  })
+                }
+              }
+            ]
+          });
+          await alert.present();
+
+        }
+      }
+    })
+
+  }
   destroyScanner() {
     this.scanner.destroy();
     // 这里延迟一秒将html背景色重新设置为白色，否则会变透明，影响视觉效果
     setTimeout(() => {
       (window.document.querySelector('html') as HTMLElement).style.backgroundColor = '#fff';
     }, 1000);
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1000,
+      mode: 'ios'
+    });
+    toast.present();
   }
 }
 

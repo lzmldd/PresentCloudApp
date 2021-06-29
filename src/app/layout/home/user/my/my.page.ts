@@ -57,6 +57,14 @@ export class MyPage implements OnInit {
 
   onLogout() {
     localStorage.setItem("isLogin", "0");
+    localStorage.removeItem("token");
     this.router.navigateByUrl('login');
+    // var api = '/logout';//后台接口
+    // // token中有存对应的user信息，因此不用传参数 
+    // this.httpService.postAll(api).then(async (response: any) => {
+    //   // console.log(response.data)
+
+    // })
   }
+  
 }

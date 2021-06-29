@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header mode="ios">
   <ion-toolbar class="scanner">
     <ion-buttons slot="start">
       <ion-button (click)="closeModal()">
@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [class.scanner]="scannerClass">
+<ion-content [class.scanner]="scannerClass" mode="ios">
 
   <div class="qr-scanner-area">
     <p class="lines"></p>

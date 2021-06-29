@@ -1,11 +1,11 @@
 {
     "/api": {
-        "target": "http://www.sunago.top/",
+        "target": "http://www.sunago.top/dcloud",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,
         "pathRewrite": {
-            "^/api": "http://www.sunago.top/"
+            "^/api": "http://www.sunago.top/dcloud"
         }
     }
 }

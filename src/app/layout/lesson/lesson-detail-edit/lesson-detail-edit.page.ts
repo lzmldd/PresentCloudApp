@@ -29,7 +29,7 @@ export class LessonDetailEditPage implements OnInit {
       this.httpService.getAll(api).then(async (response: any) => {
         if (this.pageNum == "1") {//学习要求
           this.value = response.data.obj.learnRequire;
-        } else if (this.pageNum == "2") {//学习进度
+        } else if (this.pageNum == "2") {//教学进度
           this.value = response.data.obj.teachProgress;
         } else if (this.pageNum == "3") {//考试安排
           this.value = response.data.obj.examSchedule;
@@ -43,7 +43,7 @@ export class LessonDetailEditPage implements OnInit {
     }
     if (pageNum == '1') {
       params["learnRequire"] = this.value;
-    } else if (pageNum = '2') {
+    } else if (pageNum == '2') {
       params["teachProgress"] = this.value;
     } else if (pageNum == "3"){
       params["examSchedule"] = this.value;

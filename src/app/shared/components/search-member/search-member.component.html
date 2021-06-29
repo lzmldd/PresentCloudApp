@@ -1,3 +1,38 @@
-<p>
-  search-member works!
-</p>
+<ion-header>
+  <div style="width: 100%;height: 20px;opacity: 0;"></div>
+  <ion-toolbar>
+    <ion-searchbar mode="ios" class="searchbar" show-cancel-button="always" cancel-button-text="取消" debounce=1000 
+        (ionCancel)="dissmissSearch()" (ionChange)="getData($event)" placeholder="搜索 姓名或学号" style="margin-top:10px;"></ion-searchbar>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>
+        <p>成员总数</p>
+      </ion-label>
+      <ion-label style="text-align: -webkit-right;">
+        <p>{{memberNumber}}人</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngFor="let item of member" style="margin:5px 0px;" detail (click)="gotoStudentCheckinResult(item.uid)">
+      <h3 style="color:#3dc2ff;">{{item.rank}}&nbsp;&nbsp;</h3>
+      <ion-thumbnail>
+        <img src="{{item.uface}}">
+      </ion-thumbnail>
+      <ion-label>
+        <h3>
+          &nbsp;&nbsp;{{item.uname}}&nbsp;&nbsp;
+          <ion-icon *ngIf="item.sex=='1'" name="female-outline" style="color:#ed576b"></ion-icon>
+          <ion-icon *ngIf="item.sex=='0'" name="male-outline" style="color:#3dc2ff"></ion-icon>
+        </h3>
+        <p>&nbsp;&nbsp;{{item.unumber}}</p>
+      </ion-label>
+      <ion-label style="text-align: -webkit-right;color:#ed9c57;">
+        <h2>{{item.exp}}&nbsp;经验值</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

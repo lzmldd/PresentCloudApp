@@ -19,7 +19,6 @@ export class SearchComponent implements OnInit {
   constructor(public navParams: NavParams,
     public router: Router,
     public httpService: HttpServiceService,
-    public http: HttpClient,
     public loadingController: LoadingController,
     )
     {

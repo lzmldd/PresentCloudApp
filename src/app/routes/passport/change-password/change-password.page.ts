@@ -46,6 +46,7 @@ export class ChangePasswordPage implements OnInit {
           let alert = await this.alertController.create({
             header: '提示',
             message: '设置新密码成功，点击确定返回登录页！',
+            mode: 'ios',
             buttons: [{
               text: '确定',
               cssClass: 'secondary',
@@ -57,13 +58,22 @@ export class ChangePasswordPage implements OnInit {
             ]
           });
           alert.present();
+        } else if (response.data.message== "当前密码输入不正确，请重新输入")
+        {
+          const toast = await this.toastController.create({
+            message: '旧密码输入不正确',
+            duration: 2000,
+            mode: 'ios'
+          });
+          toast.present();
         }
       })
 
     } else {
-      let toast = await this.toastController.create({
+      const toast = await this.toastController.create({
         message: '两次新密码输入不一致！',
-        duration: 2000
+        duration: 2000,
+        mode: 'ios'
       });
       toast.present();
     }

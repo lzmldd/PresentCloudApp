@@ -56,6 +56,7 @@ export class RegisterPage implements OnInit {
           let alert = await this.alertController.create({
             header: '提示',
             message: '该手机号已注册，请去登录',
+            mode: 'ios',
             buttons: [
               {
                 text: '好的',
@@ -109,6 +110,7 @@ export class RegisterPage implements OnInit {
                 let alert = await this.alertController.create({
                   header: '提示',
                   message: '该用户名已注册，请去登录',
+                  mode: 'ios',
                   buttons: [
                     {
                       text: '好的',
@@ -127,6 +129,7 @@ export class RegisterPage implements OnInit {
                 let alert = await this.alertController.create({
                   header: '提示',
                   message: '注册成功！',
+                  mode: 'ios',
                   buttons: [
                     {
                       text: '确认',
@@ -147,9 +150,10 @@ export class RegisterPage implements OnInit {
 
           } else {
             await loading.dismiss();
-            let toast = await this.toastController.create({
+            const toast = await this.toastController.create({
               message: '两次密码不一致！',
-              duration: 2000
+              duration: 2000,
+              mode: 'ios'
             });
             toast.present();
           }
@@ -159,7 +163,8 @@ export class RegisterPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000
+      duration: 2000,
+      mode: 'ios'
     });
     toast.present();
   }

@@ -39,12 +39,15 @@
     <ion-item *ngFor="let item of record" (click)="checkHistoryDetail(item)" detail>
       <ion-label *ngIf="item.type==0" slot="start">
         <h4>{{item.startTime.substring(0,10)}} {{item.dayOfWeek}} </h4>
-        <p>{{item.startTime.substring(11,16)}}-{{item.endTime.substring(11,16)}} 一键签到</p>
+        <p *ngIf="item.endTime!=null">{{item.startTime.substring(11,16)}}-{{item.endTime.substring(11,16)}} 一键签到</p>
+        <p *ngIf="item.endTime==null">{{item.startTime.substring(11,16)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一键签到</p>
       </ion-label>
       <ion-label *ngIf="item.type==1" slot="start">
         <h4>{{item.startTime.substring(0,10)}} {{item.dayOfWeek}} </h4>
-        <p>{{item.startTime.substring(11,16)}}-{{item.endTime.substring(11,16)}} 限时签到</p>
+        <p *ngIf="item.endTime!=null">{{item.startTime.substring(11,16)}}-{{item.endTime.substring(11,16)}} 限时签到</p>
+        <p *ngIf="item.endTime==null">{{item.startTime.substring(11,16)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一键签到</p>
       </ion-label>
+      
       
       <ion-label slot="end" style="text-align: right;"><p>{{item.signedCount}}人/{{item.total}}人</p></ion-label>
     </ion-item>

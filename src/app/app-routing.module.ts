@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { StartAppGuard } from './shared/core/start-app.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
   },
   {
     path: 'welcome',
-    loadChildren: () => import('./routes/welcome/welcome.module').then( m => m.WelcomePageModule)
+    loadChildren: () => import('./routes/welcome/welcome.module').then( m => m.WelcomePageModule),
+    canActivate: [StartAppGuard]
   },
   {
     path: 'login',

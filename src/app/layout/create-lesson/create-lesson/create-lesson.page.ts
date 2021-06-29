@@ -29,7 +29,8 @@ export class CreateLessonPage implements OnInit {
 
   term = [[]];
   termOptions = 7;// 学期列表选项长度
-
+  course = [[]];
+  courseOptions: number;
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
@@ -73,6 +74,16 @@ export class CreateLessonPage implements OnInit {
   }
 
   ngOnInit() {
+    
+    var api = '/course/manage/';//后台接口
+    this.httpService.getAll(api).then(async (response: any) => {
+
+      // this.courseList = response.data;
+      for (var i = 0; i < response.data.length; i++) {
+        this.course[0].push(response.data[i].name);
+      }
+      this.courseOptions = this.course[0].length;
+    })
     this.lesson = {
       className: "",
       name: "",
@@ -92,7 +103,7 @@ export class CreateLessonPage implements OnInit {
       this.selectedId = localStorage.getItem("recent_selectedId")
     }
     this.getTime();
-
+    console.log(this.lesson.term)
   }
 
   onCreate(form: NgForm) {
@@ -113,7 +124,8 @@ export class CreateLessonPage implements OnInit {
         if (response.data.message == "创建班课成功") {
           const toast = await this.toastController.create({
             message: "创建班课成功",
-            duration: 2000
+            duration: 2000,
+            mode: 'ios'
           });
           toast.present();
           localStorage.setItem("create_courseCode", response.data.obj.courseCode)
@@ -129,13 +141,23 @@ export class CreateLessonPage implements OnInit {
     let myDate = new Date();
     //获取当前年
     var year = myDate.getFullYear();
+    var month = myDate.getMonth()+1;// getMonth()为0-11
+    console.log(month)
     for (var i = 0; i < 3; i++) {
       var start = year + i - 1;
       var end = start + 1;
-      this.term[0].push(start + "-" + end + "-01");
-      this.term[0].push(start + "-" + end + "-02");
+      this.term[0].push(start + "-" + end + "-1");
+      this.term[0].push(start + "-" + end + "-2");
     }
     this.term[0].push("不设置学期")
+    if (month >= 2 && month <= 7)// 2-7为第二学期
+    {
+      this.lesson.term= this.term[0][1]
+    }
+    else
+    {
+      this.lesson.term = this.term[0][2]
+    }
   }
 
   // 点击学期弹出选项框
@@ -143,6 +165,7 @@ export class CreateLessonPage implements OnInit {
 
     const picker = await this.pickerController.create({
       columns: this.getTermColumns(numColumns, numOptions, columnOptions),
+      mode:"ios",
       buttons: [
         {
           text: '取消',

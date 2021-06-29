@@ -10,7 +10,7 @@
   "proxies": [
     {
       "path": "/api", 
-      "proxyUrl": "http://www.sunago.top/"
+      "proxyUrl": "http://116.62.152.144:8083/"
     }
   ]
 }

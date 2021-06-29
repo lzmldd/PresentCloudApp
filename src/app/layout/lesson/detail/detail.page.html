@@ -135,10 +135,18 @@
     </ion-item>
   </ion-list>
 
-  <ion-item *ngIf="isTeacher == '1'" class="lesson-row" lines="none" style="border:solid 1px red;">
+  <ion-item *ngIf="isTeacher == '1' && lesson.enabled==true" class="lesson-row" lines="none" style="border:solid 1px red;">
+    <ion-button class="lesson-btn" fill="clear" style="color:red" (click)="endLesson()">结束班课</ion-button>
+  </ion-item>
+  <ion-item *ngIf="isTeacher == '1' && lesson.enabled==false" class="lesson-row" lines="none" style="border:solid 1px grey;" >
+    <ion-button class="lesson-btn" fill="clear" style="color:grey" (click)="endLesson()"  [disabled]="true">结束班课</ion-button>
+  </ion-item>
+  <ion-item *ngIf="isTeacher == '1' && lesson.enabled==true" class="lesson-row" lines="none" style="border:solid 1px grey;" >
+    <ion-button class="lesson-btn" fill="clear" style="color:grey" (click)="deleteLesson()" [disabled]="true">删除班课</ion-button>
+  </ion-item>
+  <ion-item *ngIf="isTeacher == '1' && lesson.enabled==false" class="lesson-row" lines="none" style="border:solid 1px red;">
     <ion-button class="lesson-btn" fill="clear" style="color:red" (click)="deleteLesson()">删除班课</ion-button>
   </ion-item>
-
   <ion-item *ngIf="isTeacher == '0'" class="lesson-row" lines="none" style="border:solid 1px red;">
     <ion-button class="lesson-btn" fill="clear" style="color:red" (click)="outLesson()">退出班课</ion-button>
   </ion-item>

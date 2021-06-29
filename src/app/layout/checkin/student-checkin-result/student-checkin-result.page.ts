@@ -56,7 +56,7 @@ export class StudentCheckinResultPage implements OnInit {
     }
     this.httpService.get(api, params).then(async (response: any) => {
       
-      this.checkHistory = response.data.reverse();
+      this.checkHistory = response.data;
       await loading.dismiss();
       // this.percent = this.checkHistory[this.checkHistory.length - 1].per
       // this.checkHistory.splice(this.checkHistory.length - 1)
@@ -72,7 +72,8 @@ export class StudentCheckinResultPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000
+      duration: 2000,
+      mode: 'ios'
     });
     toast.present();
   }
@@ -97,7 +98,8 @@ export class StudentCheckinResultPage implements OnInit {
         } else {
           const toast = await this.toastController.create({
             message: '老师还没开始签到或签到已结束', // 弹出输入不能为空的文本框
-            duration: 2000
+            duration: 2000,
+            mode: 'ios'
           });
           toast.present();
         }

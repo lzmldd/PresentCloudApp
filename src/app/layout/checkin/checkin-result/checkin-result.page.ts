@@ -33,6 +33,7 @@ export class CheckinResultPage implements OnInit {
   }
   
   ngOnInit() {
+    console.log(this.router.url.split('?')[0])
   }
 
   ionViewWillEnter() {
@@ -61,7 +62,8 @@ export class CheckinResultPage implements OnInit {
   async presentToast(str) {
     const toast = await this.toastController.create({
       message: str,
-      duration: 2000
+      duration: 2000,
+      mode: 'ios'
     });
     toast.present();
   }

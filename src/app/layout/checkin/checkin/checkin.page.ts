@@ -136,7 +136,8 @@ export class CheckinPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000
+      duration: 2000,
+      mode:'ios'
     });
     toast.present();
   }
@@ -147,6 +148,7 @@ export class CheckinPage implements OnInit {
       cssClass: 'my-custom-class',
       header: '放弃签到!',
       message: '确定要放弃签到吗？',
+      mode: 'ios',
       buttons: [
         {
           text: '取消',
@@ -177,6 +179,7 @@ export class CheckinPage implements OnInit {
       cssClass: 'my-custom-class',
       header: '结束签到!',
       message: '确定要结束签到吗？',
+      mode: 'ios',
       buttons: [
         {
           text: '取消',
@@ -280,6 +283,7 @@ export class CheckinPage implements OnInit {
       let alert = await this.alertController.create({
         header: '提示',
         message: '限时签到已结束',
+        mode: 'ios',
         buttons: [
           {
             text: '确定',

@@ -3,7 +3,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import axios from 'axios';
-import axiosAdapterUniapp from 'axios-adapter-uniapp'
+
 // @Injectable({providedIn: 'root'})
 // export class ServiceNameService {
 //   constructor(private httpClient: HttpClient) { }
@@ -23,24 +23,24 @@ export class HttpServiceService {
   }
 
   //axios方法
-  // commonUrl = 'http://www.sunago.top'; 
-  commonUrl = "/api";
   
+  // commonUrl = "/api"; 
+  commonUrl ="http://www.sunago.top/dcloud"
+  // commonUrl = "http://116.62.152.144:8083"
   setToken() {
     //请求拦截器 头部设置token
     axios.interceptors.request.use((config) => {
       if (localStorage.getItem("token")) {
         config.headers['Authorization'] = localStorage.getItem("token");
-        // config.headers['Content-Type'] = 'application/json';
       }
-      console.log(config)
+      // console.log(config)
       return config;
     }, (error) => {
       return Promise.reject(error);
     });
     //响应拦截器
     axios.interceptors.response.use((success) => {
-      console.log(success)
+      // console.log(success)
       if (success.status==500)
       {
         this.presentToast('服务器错误')
@@ -53,7 +53,13 @@ export class HttpServiceService {
         console.log(success.data)
       }
       if (success.status == 200)
+      {
+        // if (success.data.code == 500)
+        // {
+        //   this.presentToast(success.data.message)
+        // }
         return success;
+      }
       else 
         this.presentToast('未知错误')
     }, (error) => {
@@ -64,7 +70,8 @@ export class HttpServiceService {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000
+      duration: 2000,
+      mode: 'ios'
     });
     toast.present();
   }
@@ -74,10 +81,8 @@ export class HttpServiceService {
     
     return new Promise((resolve, reject) => {
       this.setToken();
-      axios({
-        method: 'get',
-        url: this.commonUrl + api,
-        params:params,
+      axios.get(this.commonUrl + api, {
+        params: params,
       }).then(function (response) {
         resolve(response);
       })
@@ -92,11 +97,8 @@ export class HttpServiceService {
      return new Promise((resolve, reject) => {
       this.setToken();
       axios({
-        // headers: {
-        //   'Content-Type': 'application/json'
-        // },
         method: 'get',
-        url: this.commonUrl + api
+        url: this.commonUrl + api,
       }).then(function (response) {
         resolve(response);
       })
@@ -115,9 +117,6 @@ export class HttpServiceService {
         method: 'post',
         url: this.commonUrl + api,
         data: params,
-        // headers: {
-        //   'Content-Type': 'application/json'
-        // },
       }).then(function (response) {
         resolve(response);
       })
@@ -133,7 +132,7 @@ export class HttpServiceService {
       this.setToken();
       axios({
         method: 'post',
-        url: this.commonUrl + api
+        url: this.commonUrl + api,
       }).then(function (response) {
         resolve(response);
       })
@@ -150,9 +149,6 @@ export class HttpServiceService {
         method: 'put',
         url: this.commonUrl + api,
         data: params,
-        // headers: {
-        //   'Content-Type': 'x-www-form-urlencoded '
-        // },
       }).then(function (response) {
         resolve(response);
       })
@@ -168,10 +164,6 @@ export class HttpServiceService {
       axios({
         method: 'put',
         url: this.commonUrl + api,
-        // data: params,
-        headers: {
-          'Content-Type': 'x-www-form-urlencoded '
-        },
       }).then(function (response) {
         resolve(response);
       })
@@ -190,7 +182,7 @@ export class HttpServiceService {
         },
         method: 'patch',
         url: this.commonUrl + api,
-        data: params
+        data: params,
       }).then(function (response) {
         resolve(response);
       })
@@ -209,7 +201,7 @@ export class HttpServiceService {
         },
         method: 'delete',
         url: this.commonUrl + api,
-        data: params
+        data: params,
       }).then(function (response) {
         resolve(response);
       })

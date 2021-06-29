@@ -25,8 +25,8 @@ export class DetailPage implements OnInit {
     departmentId: null,// 课程的学院id
     learnRequire: '未设置',
     teachProgress: '未设置',
-    examSchedule: '未设置'
-
+    examSchedule: '未设置',
+    enabled:true
   };
   public checked = 1;
   public schoolLesson="";
@@ -40,12 +40,11 @@ export class DetailPage implements OnInit {
     public pickerController: PickerController,
     public alertController: AlertController,
     public toastController: ToastController,
-    // private statusBar: StatusBar,
   ) {
   }
 
   ngOnInit() {
-    // this.statusBar.backgroundColorByHexString('#3dc2ff;'); //状态栏的样式设置
+    console.log(this.router.url.split('?')[0])
     this.activatedRoute.queryParams.subscribe(queryParams => {
       if (queryParams.pageNum == '1') {
         this.lesson.learnRequire = queryParams.property;
@@ -55,6 +54,10 @@ export class DetailPage implements OnInit {
         this.lesson.examSchedule = queryParams.property;
       } else if (queryParams.pageNum == '6') {
         this.selectedName = queryParams.name
+        this.lesson.schoolName = queryParams.name.split(' ')[0]
+        this.lesson.departmentName = queryParams.name.split(' ')[1]
+        console.log(queryParams)
+        console.log(this.lesson)
         // 更新学校院系名
         var params={
           id: localStorage.getItem("course_id"),
@@ -88,6 +91,7 @@ export class DetailPage implements OnInit {
 
   ionViewWillEnter() {
     this.isTeacher = localStorage.getItem("isTeacher");
+    this.selectedName = this.lesson.schoolName + ' ' + this.lesson.departmentName;
     this.getLesson();
   }
 
@@ -120,7 +124,8 @@ export class DetailPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1000
+      duration: 1000,
+      mode: 'ios'
     });
     toast.present();
   }
@@ -141,14 +146,13 @@ export class DetailPage implements OnInit {
       await this.httpService.get(api, params).then(async (response: any) => {
         this.lesson = response.data.obj;
         console.log(this.lesson);
-        console.log('a')
       })
     }
     if (this.lesson.teacherName == null) {//获取老师名
       this.lesson.teacherName = this.lesson.creater.name
     }
     if (this.lesson.schoolName == null || this.lesson.schoolName == "") {
-      this.selectedName = "未设置";
+      this.selectedName = "请选择";
     } else {
       //获取学校院系名
       this.selectedName = this.lesson.schoolName + ' ' + this.lesson.departmentName;
@@ -185,6 +189,7 @@ export class DetailPage implements OnInit {
     const alert = await this.alertController.create({
       header: '提示',
       message: '是否确认删除？',
+      mode: 'ios',
       buttons: [
         {
           text: '取消',
@@ -207,13 +212,51 @@ export class DetailPage implements OnInit {
     });
     await alert.present();
 
-
   }
 
+  async endLesson() {
+    const alert = await this.alertController.create({
+      header: '提示',
+      message: '是否确认结束？',
+      mode: 'ios',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          cssClass: 'medium'
+        }, {
+          text: '确认',
+          handler: () => {
+
+            var params = {
+              id: localStorage.getItem("course_id"),
+              enabled: false
+            }
+            // console.log(params)
+            var api = '/course/manage/';
+            this.httpService.put(api, params).then(async (response: any) => {
+              if (response.data.message == "修改班课成功") {
+                this.presentToast('结束班课成功')
+                this.lesson.enabled=false
+               
+              }
+              
+            })
+            
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+
+  }
+  
   async outLesson() {
     const alert = await this.alertController.create({
       header: '提示',
       message: '是否确认退出？',
+      mode: 'ios',
       buttons: [
         {
           text: '取消',

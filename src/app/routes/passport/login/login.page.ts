@@ -51,6 +51,7 @@ export class LoginPage implements OnInit {
           let alert = await this.alertController.create({
             header: '提示',
             message: '该手机号未注册，请先注册',
+            mode: 'ios',
             buttons: [
               {
                 text: '好的',
@@ -117,6 +118,7 @@ export class LoginPage implements OnInit {
             let alert = await this.alertController.create({
               header: '提示',
               message: '该手机号未注册，请先注册',
+              mode: 'ios',
               buttons: [
                 {
                   text: '好的',
@@ -158,10 +160,34 @@ export class LoginPage implements OnInit {
           } else if (response.data.message == "账号被禁用，请联系管理员")// 登陆失败，code=500
           {
             this.presentToast(response.data.message)
-          } else if (response.data.message == "用户名/手机号或密码输入错误"){
+          } else if (response.data.message == "手机端仅允许教师/学生登录")// 登陆失败，code=500
+          {
+            this.presentToast(response.data.message)
+          } else if (response.data.message == "用户不存在"){
             let alert = await this.alertController.create({
               header: '提示',
-              message: '手机号或密码输入错误',
+              message: '手机号输入错误',
+              mode: 'ios',
+              buttons: [
+                {
+                  text: '忘记密码',
+                  handler: () => {
+                    this.router.navigateByUrl('/forget-password');
+                  }
+                },
+                {
+                  text: '好的',
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          }
+          else if (response.data.message == "密码输入错误") {
+            let alert = await this.alertController.create({
+              header: '提示',
+              message: '密码输入错误',
+              mode: 'ios',
               buttons: [
                 {
                   text: '忘记密码',
@@ -185,7 +211,8 @@ export class LoginPage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000
+      duration: 2000,
+      mode: 'ios'
     });
     toast.present();
   }

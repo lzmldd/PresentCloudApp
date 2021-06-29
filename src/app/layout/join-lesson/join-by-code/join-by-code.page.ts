@@ -57,10 +57,17 @@ export class JoinByCodePage implements OnInit {
           this.router.navigateByUrl("/confirm-join");
         }
         else if (response.data.message == "没有此班课") {
-          this.presentToast('无效的班课号')
+          this.presentToast('班课不存在')
         }
         else if (response.data.message == "该班课不允许加入，请联系教师") {
           this.presentToast('该班课不允许加入，请联系教师')
+        }
+        else if (response.data.message == "您已加入该班课") {
+          this.presentToast('您已加入本班课，请勿重复加入！')
+          this.router.navigate(['/home-tabs/mylesson'])
+        } else if (response.data.message == "该班课已结束") {
+          this.presentToast('该班课已结束')
+          // this.router.navigate(['/home-tabs/mylesson'])
         }
       })
     }
@@ -70,7 +77,8 @@ export class JoinByCodePage implements OnInit {
   async presentToast(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1000
+      duration: 1000,
+      mode: 'ios'
     });
     toast.present();
   }
